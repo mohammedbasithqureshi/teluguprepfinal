@@ -1,0 +1,10 @@
+[
+  { "label": "TSPSC Group-2 Recruitment 2026 (891 Posts)", "color": "bg-red-600", "href": "/jobs" },
+  { "label": "Daily Current Affairs & Crack Exams", "color": "bg-orange-500", "href": "/blog" },
+  { "label": "AP Grama Sachivalayam (2,450 Posts)", "color": "bg-pink-600", "href": "/jobs" },
+  { "label": "RRB Group-D Online Form 2026", "color": "bg-blue-700", "href": "/jobs" },
+  { "label": "Telangana DSC Answer Key 2026", "color": "bg-yellow-600", "href": "/answer-key" },
+  { "label": "AP Police Constable Admit Card", "color": "bg-sky-600", "href": "/admit-card" },
+  { "label": "RRB NTPC Exam City / Admit Card", "color": "bg-rose-800", "href": "/admit-card" },
+  { "label": "SSC CGL Online Form 2026", "color": "bg-green-700", "href": "/jobs" }
+]

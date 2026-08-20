@@ -1,0 +1,24 @@
+{
+  "mainNav": [
+    { "label": "Home", "href": "/" },
+    { "label": "Notifications", "href": "/jobs" },
+    { "label": "Results", "href": "/results" },
+    { "label": "Admit Card", "href": "/admit-card" },
+    { "label": "Answer Key", "href": "/answer-key" },
+    { "label": "Study Material", "href": "/study-material" },
+    { "label": "Blog", "href": "/blog" },
+    { "label": "About", "href": "/about" },
+    { "label": "Contact", "href": "/contact" }
+  ],
+  "footerExplore": [
+    { "label": "Latest Jobs", "href": "/jobs" },
+    { "label": "Results", "href": "/results" },
+    { "label": "Admit Card", "href": "/admit-card" },
+    { "label": "Answer Key", "href": "/answer-key" }
+  ],
+  "footerLegal": [
+    { "label": "Privacy Policy", "href": "/privacy-policy" },
+    { "label": "Terms & Conditions", "href": "/terms" },
+    { "label": "Disclaimer", "href": "/disclaimer" }
+  ]
+}

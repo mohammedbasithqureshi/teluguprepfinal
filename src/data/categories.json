@@ -1,0 +1,9 @@
+[
+  { "id": "tspsc", "name_en": "TSPSC", "name_te": "టిఎస్‌పిఎస్‌సి", "slug": "tspsc" },
+  { "id": "appsc", "name_en": "APPSC", "name_te": "ఎపిపిఎస్‌సి", "slug": "appsc" },
+  { "id": "railways", "name_en": "Railways", "name_te": "రైల్వే", "slug": "railways" },
+  { "id": "banking", "name_en": "Banking", "name_te": "బ్యాంకు", "slug": "banking" },
+  { "id": "police", "name_en": "Police", "name_te": "పోలీస్", "slug": "police" },
+  { "id": "dsc", "name_en": "DSC/Teacher", "name_te": "టీచర్", "slug": "dsc" },
+  { "id": "ssc", "name_en": "SSC/CGL", "name_te": "ఎస్ఎస్‌సి", "slug": "ssc" }
+]
