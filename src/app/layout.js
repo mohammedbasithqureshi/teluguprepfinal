@@ -32,19 +32,16 @@ export const metadata = {
     follow: true,
   },
 };
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
+      <body className={`${inter.variable} ${notoTelugu.variable} font-sans antialiased`}>
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9039316648016229"
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
-      </head>
-      <body className={`${inter.variable} ${notoTelugu.variable} font-sans antialiased`}>
         <TopBar />
         <Header />
         <main>{children}</main>

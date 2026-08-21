@@ -1,4 +1,5 @@
 import AdSlot from '@/components/home/AdSlot';
+import ShareButton from '@/components/ui/ShareButton';
 
 const typeLabels = {
   job: 'NOTIFICATION',
@@ -17,6 +18,46 @@ function formatDate(dateStr) {
   });
 }
 
+function renderContent(content) {
+  if (!content) return null;
+
+  const blocks = content.split('\n\n').filter(Boolean);
+
+  return blocks.map((block, i) => {
+    const trimmed = block.trim();
+
+    // Heading: **Heading Text**
+    if (trimmed.startsWith('**') && trimmed.endsWith('**')) {
+      return (
+        <h2 key={i} className="text-xl md:text-2xl font-bold mt-10 mb-3 text-[var(--color-navy)]">
+          {trimmed.replace(/\*\*/g, '')}
+        </h2>
+      );
+    }
+
+    // Bullet list: lines starting with "- "
+    if (trimmed.split('\n').every((line) => line.trim().startsWith('- '))) {
+      const items = trimmed.split('\n').map((line) => line.trim().replace(/^- /, ''));
+      return (
+        <ul key={i} className="list-disc pl-6 space-y-2 my-4">
+          {items.map((item, j) => (
+            <li key={j} className="leading-relaxed">
+              {item}
+            </li>
+          ))}
+        </ul>
+      );
+    }
+
+    // Regular paragraph
+    return (
+      <p key={i} className="mb-4 leading-relaxed">
+        {trimmed}
+      </p>
+    );
+  });
+}
+
 export default function PostDetail({ post }) {
   if (!post) return null;
 
@@ -25,8 +66,6 @@ export default function PostDetail({ post }) {
     typeof post.important_dates === 'string'
       ? JSON.parse(post.important_dates)
       : post.important_dates;
-
-  const paragraphs = post.content ? post.content.split('\n\n').filter(Boolean) : [];
 
   return (
     <article className="container-page py-10 max-w-3xl mx-auto">
@@ -56,19 +95,7 @@ export default function PostDetail({ post }) {
         </div>
       )}
 
-      <div className="prose-content space-y-5 text-gray-800 leading-relaxed">
-        {paragraphs.map((p, i) => {
-          const trimmed = p.trim();
-          if (trimmed.startsWith('**') && trimmed.endsWith('**')) {
-            return (
-              <h2 key={i} className="text-xl font-bold mt-8 mb-2 text-[var(--color-navy)]">
-                {trimmed.replace(/\*\*/g, '')}
-              </h2>
-            );
-          }
-          return <p key={i}>{p}</p>;
-        })}
-      </div>
+      <div className="prose-content text-gray-800">{renderContent(post.content)}</div>
 
       {post.official_link && (
         <a
@@ -81,12 +108,17 @@ export default function PostDetail({ post }) {
         </a>
       )}
 
-      <p className="text-xs text-gray-400 mt-10 border-t pt-4">
+      {/* Share Button placed at the bottom of the article */}
+      <div className="mt-8 pt-6 border-t border-gray-100">
+        <ShareButton title={post.title} />
+      </div>
+
+      <p className="text-xs text-gray-400 mt-6 border-t pt-4">
         Disclaimer: This information is compiled from official sources. Please verify all details
         on the official website before applying.
       </p>
 
-      <AdSlot label="IN-ARTICLE UNIT" />
+      <AdSlot slot="3333333333" label="IN-ARTICLE UNIT" />
     </article>
   );
 }

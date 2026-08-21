@@ -14,10 +14,10 @@ export default async function HomePage() {
   return (
     <>
       <Categories />
-      <AdSlot label="IN-FEED UNIT" />
+      <AdSlot slot="1111111111" label="IN-FEED UNIT" />
       <PostGrid title="Latest Notifications" posts={jobs} viewAllHref="/jobs" basePath="/jobs" />
       <PostGrid title="Results & Admit Cards" posts={results} viewAllHref="/results" basePath="/results" />
-      <AdSlot label="DISPLAY UNIT" />
+      <AdSlot slot="2222222222" label="DISPLAY UNIT" />
       <BlogGrid title="From the Blog — Exam Prep Guides" posts={blogs} viewAllHref="/blog" />
     </>
   );
