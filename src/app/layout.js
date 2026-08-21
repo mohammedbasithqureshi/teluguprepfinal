@@ -8,7 +8,10 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const notoTelugu = Noto_Sans_Telugu({ subsets: ['telugu'], variable: '--font-telugu' });
 
 export const metadata = {
-  title: 'Telugu Prep - Government Job Updates, Results & Study Material',
+  title: {
+    default: 'Telugu Prep - Government Job Updates, Results & Study Material',
+    template: '%s',
+  },
   description:
     'Daily notifications, results, admit cards and free study material for Telangana & Andhra Pradesh government exams. TSPSC, APPSC, Railways, Banking, Police, DSC and more.',
   metadataBase: new URL('https://teluguprep.in'),
@@ -16,6 +19,11 @@ export const metadata = {
     title: 'Telugu Prep - Government Job Updates & Study Material',
     description: 'Daily job notifications, results, admit cards for Telangana & AP exams.',
     type: 'website',
+    locale: 'en_IN',
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
