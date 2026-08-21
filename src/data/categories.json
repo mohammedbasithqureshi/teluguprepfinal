@@ -1,9 +1,13 @@
 [
-  { "id": "tspsc", "name_en": "TSPSC", "name_te": "టిఎస్‌పిఎస్‌సి", "slug": "tspsc" },
-  { "id": "appsc", "name_en": "APPSC", "name_te": "ఎపిపిఎస్‌సి", "slug": "appsc" },
-  { "id": "railways", "name_en": "Railways", "name_te": "రైల్వే", "slug": "railways" },
-  { "id": "banking", "name_en": "Banking", "name_te": "బ్యాంకు", "slug": "banking" },
+  { "id": "tgpsc", "name_en": "TGPSC / TSPSC", "name_te": "టిజిపిఎస్సి", "slug": "tgpsc" },
   { "id": "police", "name_en": "Police", "name_te": "పోలీస్", "slug": "police" },
-  { "id": "dsc", "name_en": "DSC/Teacher", "name_te": "టీచర్", "slug": "dsc" },
-  { "id": "ssc", "name_en": "SSC/CGL", "name_te": "ఎస్ఎస్‌సి", "slug": "ssc" }
+  { "id": "teaching", "name_en": "Teaching / DSC", "name_te": "టీచర్", "slug": "teaching" },
+  { "id": "health", "name_en": "Health", "name_te": "ఆరోగ్యం", "slug": "health" },
+  { "id": "district", "name_en": "District Jobs", "name_te": "జిల్లా ఉద్యోగాలు", "slug": "district" },
+  { "id": "agriculture", "name_en": "Agriculture", "name_te": "వ్యవసాయం", "slug": "agriculture" },
+  { "id": "psu", "name_en": "PSU / Utilities", "name_te": "పిఎస్‌యు", "slug": "psu" },
+  { "id": "courts", "name_en": "High Court", "name_te": "హైకోర్టు", "slug": "courts" },
+  { "id": "universities", "name_en": "Universities", "name_te": "విశ్వవిద్యాలయాలు", "slug": "universities" },
+  { "id": "banking", "name_en": "Banking", "name_te": "బ్యాంకు", "slug": "banking" },
+  { "id": "central", "name_en": "Central Govt", "name_te": "కేంద్ర ప్రభుత్వం", "slug": "central" }
 ]
