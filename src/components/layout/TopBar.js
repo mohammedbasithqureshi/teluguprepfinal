@@ -9,7 +9,7 @@ export default function TopBar() {
   const items = [...tickerItems, ...tickerItems];
 
   return (
-    <div className="bg-[var(--color-orange-dark)] text-white text-xs md:text-sm py-2 overflow-hidden">
+    <div className="bg-[var(--color-teal-dark)] text-white text-xs md:text-sm py-2 overflow-hidden">
       <div className="marquee-track">
         {items.map((item, i) => (
           <span key={i} className="flex items-center whitespace-nowrap px-6">

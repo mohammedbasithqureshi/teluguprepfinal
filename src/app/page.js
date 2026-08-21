@@ -1,5 +1,3 @@
-import Hero from '@/components/home/Hero';
-import QuickLinks from '@/components/home/QuickLinks';
 import Categories from '@/components/home/Categories';
 import PostGrid from '@/components/home/PostGrid';
 import BlogGrid from '@/components/home/BlogGrid';
@@ -15,10 +13,9 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero />
-      <QuickLinks />
       <Categories />
       <AdSlot label="IN-FEED UNIT" />
+      <PostGrid title="Latest Notifications" posts={jobs} viewAllHref="/jobs" basePath="/jobs" />
       <PostGrid title="Results & Admit Cards" posts={results} viewAllHref="/results" basePath="/results" />
       <AdSlot label="DISPLAY UNIT" />
       <BlogGrid title="From the Blog — Exam Prep Guides" posts={blogs} viewAllHref="/blog" />
