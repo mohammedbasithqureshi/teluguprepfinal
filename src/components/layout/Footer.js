@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import navData from '@/data/nav.json';
 import { Mail, ShieldAlert } from 'lucide-react';
 
@@ -8,12 +9,15 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
 
-          {/* Brand Info */}
           <div className="lg:col-span-2 space-y-3">
             <Link href="/" className="inline-flex items-center gap-2 font-bold text-xl text-white">
-              <span className="bg-[var(--color-teal)] text-white w-8 h-8 flex items-center justify-center rounded-md font-black text-sm">
-                TP
-              </span>
+              <Image
+                src="/images/favicon-96x96.png"
+                alt="Telugu Prep logo"
+                width={32}
+                height={32}
+                className="rounded-md"
+              />
               <span>
                 Telugu <span className="text-[var(--color-amber)]">Prep</span>
               </span>
@@ -23,18 +27,17 @@ export default function Footer() {
               Daily government job notifications, results, admit cards, and free study material for Telangana & Andhra Pradesh aspirants.
             </p>
 
-            <div className="pt-1">
-              <a 
-                href="mailto:support@teluguprep.in"
-                className="inline-flex items-center gap-1.5 text-xs text-slate-300 hover:text-[var(--color-amber)] transition-colors"
-              >
-                <Mail className="w-3.5 h-3.5 text-[var(--color-amber)]" />
-                <span>support@teluguprep.in</span>
-              </a>
-            </div>
+          <div className="pt-1">
+  <a
+    href="mailto:screnestylist@gmail.com"
+    className="inline-flex items-center gap-1.5 text-xs text-slate-300 hover:text-[var(--color-amber)] transition-colors"
+  >
+    <Mail className="w-3.5 h-3.5 text-[var(--color-amber)]" />
+    <span>screnestylist@gmail.com</span>
+  </a>
+</div>
           </div>
 
-          {/* Explore Links */}
           <div>
             <h4 className="text-white font-semibold text-xs tracking-wider uppercase mb-3">Explore</h4>
             <ul className="space-y-2 text-xs">
@@ -48,7 +51,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Company Links */}
           <div>
             <h4 className="text-white font-semibold text-xs tracking-wider uppercase mb-3">Company</h4>
             <ul className="space-y-2 text-xs">
@@ -57,7 +59,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Legal Links */}
           <div>
             <h4 className="text-white font-semibold text-xs tracking-wider uppercase mb-3">Legal</h4>
             <ul className="space-y-2 text-xs">
@@ -73,7 +74,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom Bar */}
       <div className="border-t border-slate-800 bg-black/30 py-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-400">
           <div className="flex items-center gap-1.5 text-center sm:text-left">

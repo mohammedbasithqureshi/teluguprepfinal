@@ -1,4 +1,5 @@
 import { Inter, Noto_Sans_Telugu } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -6,6 +7,10 @@ import TopBar from '@/components/layout/TopBar';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const notoTelugu = Noto_Sans_Telugu({ subsets: ['telugu'], variable: '--font-telugu' });
+
+export const viewport = {
+  themeColor: '#0f2d3d',
+};
 
 export const metadata = {
   title: {
@@ -15,6 +20,7 @@ export const metadata = {
   description:
     'Daily notifications, results, admit cards and free study material for Telangana & Andhra Pradesh government exams. TSPSC, APPSC, Railways, Banking, Police, DSC and more.',
   metadataBase: new URL('https://teluguprep.in'),
+  manifest: '/manifest.json',
   openGraph: {
     title: 'Telugu Prep - Government Job Updates & Study Material',
     description: 'Daily job notifications, results, admit cards for Telangana & AP exams.',
@@ -30,6 +36,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9039316648016229"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      </head>
       <body className={`${inter.variable} ${notoTelugu.variable} font-sans antialiased`}>
         <TopBar />
         <Header />
