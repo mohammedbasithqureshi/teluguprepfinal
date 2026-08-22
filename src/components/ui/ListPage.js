@@ -22,12 +22,14 @@ function timeAgo(dateStr) {
   return `${days} days ago`;
 }
 
-export default function ListPage({ title, posts, basePath }) {
+export default function ListPage({ title, posts, basePath, filterSlot }) {
   return (
     <section className="container-page py-10">
-      <h1 className="text-2xl md:text-3xl font-bold border-l-4 border-[var(--color-teal)] pl-3 mb-8">
+      <h1 className="text-2xl md:text-3xl font-bold border-l-4 border-[var(--color-teal)] pl-3 mb-6">
         {title}
       </h1>
+
+      {filterSlot}
 
       {posts.length === 0 && (
         <p className="text-gray-500">No entries yet. Check back soon.</p>
@@ -41,11 +43,15 @@ export default function ListPage({ title, posts, basePath }) {
             className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all flex flex-col"
           >
             <span
-              className={`inline-block ${typeColors[post.type] || 'bg-gray-50 text-gray-600'} text-xs font-semibold px-2.5 py-1 rounded mb-3 w-fit`}
+              className={`inline-block ${
+                typeColors[post.type] || 'bg-gray-50 text-gray-600'
+              } text-xs font-semibold px-2.5 py-1 rounded mb-3 w-fit`}
             >
               {typeLabels[post.type] || post.type}
             </span>
-            <h3 className="font-semibold text-lg mb-4 leading-snug">{post.title}</h3>
+            <h3 className="font-semibold text-lg mb-4 leading-snug">
+              {post.title}
+            </h3>
             <div className="flex justify-between text-xs text-gray-500 border-t pt-3 mt-auto">
               <span>{post.state || 'All India'}</span>
               <span>{timeAgo(post.published_at)}</span>

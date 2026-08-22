@@ -1,11 +1,12 @@
-const tickerItems = [
-  'TSPSC Group-2 Results Released',
-  'AP Grama Sachivalayam Notification Out',
-  'RRB Group-D Admit Card Download Link Active',
-  'Telangana DSC 2026 Apply Online Started',
-];
+import { getLatestByType } from '@/lib/posts';
 
-export default function TopBar() {
+export default async function TopBar() {
+  const latestJobs = await getLatestByType('job', 6);
+
+  const tickerItems = latestJobs.length
+    ? latestJobs.map((job) => job.title)
+    : ['Welcome to Telugu Prep — check back soon for the latest job updates'];
+
   const items = [...tickerItems, ...tickerItems];
 
   return (

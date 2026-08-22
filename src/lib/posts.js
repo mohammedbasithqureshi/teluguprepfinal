@@ -92,3 +92,18 @@ export async function getByCategory(category, type = 'job') {
   }
   return data;
 }
+export async function getAllByTypeFiltered(type, category) {
+  let query = supabase.from('posts').select('*').eq('type', type);
+
+  if (category) {
+    query = query.eq('category', category);
+  }
+
+  const { data, error } = await query.order('published_at', { ascending: false });
+
+  if (error) {
+    console.error(error);
+    return [];
+  }
+  return data;
+}

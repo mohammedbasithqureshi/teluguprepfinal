@@ -19,45 +19,55 @@ function formatDate(dateStr) {
 }
 
 function renderContent(content) {
-  if (!content) return null;
-
-  const blocks = content.split('\n\n').filter(Boolean);
+  const blocks = content.split(/\n\s*\n/).filter((b) => b.trim());
 
   return blocks.map((block, i) => {
     const trimmed = block.trim();
 
     // Heading: **Heading Text**
-    if (trimmed.startsWith('**') && trimmed.endsWith('**')) {
-      return (
-        <h2 key={i} className="text-xl md:text-2xl font-bold mt-10 mb-3 text-[var(--color-navy)]">
-          {trimmed.replace(/\*\*/g, '')}
-        </h2>
-      );
+    if (trimmed.startsWith('**') && trimmed.includes('**')) {
+      const headingMatch = trimmed.match(/^\*\*(.+?)\*\*/);
+      if (headingMatch) {
+        const headingText = headingMatch[1];
+        const rest = trimmed.slice(headingMatch[0].length).trim();
+
+        return (
+          <div key={i}>
+            <h2 className="text-xl md:text-2xl font-bold mt-10 mb-3 text-[var(--color-navy)]">
+              {headingText}
+            </h2>
+            {rest && renderBlockBody(rest, i)}
+          </div>
+        );
+      }
     }
 
-    // Bullet list: lines starting with "- "
-    if (trimmed.split('\n').every((line) => line.trim().startsWith('- '))) {
-      const items = trimmed.split('\n').map((line) => line.trim().replace(/^- /, ''));
-      return (
-        <ul key={i} className="list-disc pl-6 space-y-2 my-4">
-          {items.map((item, j) => (
-            <li key={j} className="leading-relaxed">
-              {item}
-            </li>
-          ))}
-        </ul>
-      );
-    }
-
-    // Regular paragraph
-    return (
-      <p key={i} className="mb-4 leading-relaxed">
-        {trimmed}
-      </p>
-    );
+    return renderBlockBody(trimmed, i);
   });
 }
 
+function renderBlockBody(text, key) {
+  const lines = text.split('\n').map((l) => l.trim()).filter(Boolean);
+  const isBulletList = lines.length > 0 && lines.every((line) => line.startsWith('- '));
+
+  if (isBulletList) {
+    return (
+      <ul key={`ul-${key}`} className="list-disc pl-6 space-y-2 my-4">
+        {lines.map((line, j) => (
+          <li key={j} className="leading-relaxed">
+            {line.replace(/^- /, '')}
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
+  return (
+    <p key={`p-${key}`} className="mb-4 leading-relaxed">
+      {text}
+    </p>
+  );
+}
 export default function PostDetail({ post }) {
   if (!post) return null;
 
