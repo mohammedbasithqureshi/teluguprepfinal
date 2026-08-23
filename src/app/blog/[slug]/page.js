@@ -1,5 +1,5 @@
 import PostDetail from '@/components/ui/PostDetail';
-import { getPostBySlug } from '@/lib/posts';
+import { getPostBySlug, getLatestBlogs, getMostViewedBlogs, incrementViews } from '@/lib/posts';
 import { notFound } from 'next/navigation';
 
 export async function generateMetadata({ params }) {
@@ -12,6 +12,15 @@ export async function generateMetadata({ params }) {
 export default async function BlogDetailPage({ params }) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
+
   if (!post) notFound();
-  return <PostDetail post={post} />;
+
+  incrementViews(post.id); // fire-and-forget, no await needed
+
+  const [latestBlogs, mostViewed] = await Promise.all([
+    getLatestBlogs(post.id, 3),
+    getMostViewedBlogs(post.id, 3),
+  ]);
+
+  return <PostDetail post={post} latestPosts={latestBlogs} mostViewedPosts={mostViewed} />;
 }

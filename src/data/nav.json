@@ -5,7 +5,6 @@
     { "label": "Results", "href": "/results" },
     { "label": "Admit Card", "href": "/admit-card" },
     { "label": "Answer Key", "href": "/answer-key" },
-    { "label": "Study Material", "href": "/study-material" },
     { "label": "Blog", "href": "/blog" },
     { "label": "About", "href": "/about" },
     { "label": "Contact", "href": "/contact" }

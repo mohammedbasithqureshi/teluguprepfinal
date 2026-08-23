@@ -92,6 +92,10 @@ export async function getByCategory(category, type = 'job') {
   }
   return data;
 }
+
+/**
+ * Fetch all posts of a type, optionally filtered by category
+ */
 export async function getAllByTypeFiltered(type, category) {
   let query = supabase.from('posts').select('*').eq('type', type);
 
@@ -106,4 +110,84 @@ export async function getAllByTypeFiltered(type, category) {
     return [];
   }
   return data;
+}
+
+/**
+ * Fetch latest jobs excluding the current post (for "related jobs" section)
+ */
+export async function getLatestJobs(excludeId, limit = 3) {
+  let query = supabase
+    .from('posts')
+    .select('*')
+    .eq('type', 'job');
+
+  if (excludeId) {
+    query = query.neq('id', excludeId);
+  }
+
+  const { data, error } = await query
+    .order('published_at', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('Error fetching latest jobs:', error);
+    return [];
+  }
+  return data;
+}
+
+/**
+ * Fetch latest blogs excluding the current post (for "related blogs" section)
+ */
+export async function getLatestBlogs(excludeId, limit = 3) {
+  let query = supabase
+    .from('posts')
+    .select('*')
+    .eq('type', 'blog');
+
+  if (excludeId) {
+    query = query.neq('id', excludeId);
+  }
+
+  const { data, error } = await query
+    .order('published_at', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('Error fetching latest blogs:', error);
+    return [];
+  }
+  return data;
+}
+
+/**
+ * Fetch most-viewed blogs, optionally excluding the current post
+ */
+export async function getMostViewedBlogs(excludeId, limit = 3) {
+  let query = supabase
+    .from('posts')
+    .select('*')
+    .eq('type', 'blog');
+
+  if (excludeId) {
+    query = query.neq('id', excludeId);
+  }
+
+  const { data, error } = await query
+    .order('views', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('Error fetching most viewed blogs:', error);
+    return [];
+  }
+  return data;
+}
+
+/**
+ * Increment the view count for a post (calls the increment_views SQL function)
+ */
+export async function incrementViews(postId) {
+  const { error } = await supabase.rpc('increment_views', { post_id: postId });
+  if (error) console.error('Error incrementing views:', error);
 }

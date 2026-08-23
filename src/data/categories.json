@@ -1,13 +1,42 @@
 [
-  { "id": "tgpsc", "name_en": "TGPSC / TSPSC", "name_te": "టిజిపిఎస్సి", "slug": "tgpsc" },
-  { "id": "police", "name_en": "Police", "name_te": "పోలీస్", "slug": "police" },
-  { "id": "teaching", "name_en": "Teaching / DSC", "name_te": "టీచర్", "slug": "teaching" },
-  { "id": "health", "name_en": "Health", "name_te": "ఆరోగ్యం", "slug": "health" },
-  { "id": "district", "name_en": "District Jobs", "name_te": "జిల్లా ఉద్యోగాలు", "slug": "district" },
-  { "id": "agriculture", "name_en": "Agriculture", "name_te": "వ్యవసాయం", "slug": "agriculture" },
-  { "id": "psu", "name_en": "PSU / Utilities", "name_te": "పిఎస్‌యు", "slug": "psu" },
-  { "id": "courts", "name_en": "High Court", "name_te": "హైకోర్టు", "slug": "courts" },
-  { "id": "universities", "name_en": "Universities", "name_te": "విశ్వవిద్యాలయాలు", "slug": "universities" },
-  { "id": "banking", "name_en": "Banking", "name_te": "బ్యాంకు", "slug": "banking" },
-  { "id": "central", "name_en": "Central Govt", "name_te": "కేంద్ర ప్రభుత్వం", "slug": "central" }
+  {
+    "group": "Telangana",
+    "groupSlug": "telangana",
+    "categories": [
+      { "id": "tgpsc", "name_en": "TGPSC / TSPSC", "name_te": "టిజిపిఎస్సి", "slug": "tgpsc" },
+      { "id": "police", "name_en": "Police", "name_te": "పోలీస్", "slug": "police" },
+      { "id": "teaching", "name_en": "Teaching / DSC", "name_te": "టీచర్", "slug": "teaching" },
+      { "id": "health", "name_en": "Health", "name_te": "ఆరోగ్యం", "slug": "health" },
+      { "id": "district", "name_en": "District Jobs", "name_te": "జిల్లా ఉద్యోగాలు", "slug": "district" },
+      { "id": "agriculture", "name_en": "Agriculture", "name_te": "వ్యవసాయం", "slug": "agriculture" },
+      { "id": "psu", "name_en": "PSU / Utilities", "name_te": "పిఎస్‌యు", "slug": "psu" },
+      { "id": "courts", "name_en": "High Court", "name_te": "హైకోర్టు", "slug": "courts" },
+      { "id": "universities", "name_en": "Universities", "name_te": "విశ్వవిద్యాలయాలు", "slug": "universities" },
+      { "id": "banking", "name_en": "Banking", "name_te": "బ్యాంకు", "slug": "banking" }
+    ]
+  },
+  {
+    "group": "Andhra Pradesh",
+    "groupSlug": "andhra-pradesh",
+    "categories": [
+      { "id": "appsc", "name_en": "APPSC", "name_te": "ఎపిపిఎస్సి", "slug": "appsc" },
+      { "id": "ap-police", "name_en": "AP Police", "name_te": "ఏపి పోలీస్", "slug": "ap-police" },
+      { "id": "ap-teaching", "name_en": "AP Teaching / DSC", "name_te": "ఏపి టీచర్", "slug": "ap-teaching" },
+      { "id": "ap-health", "name_en": "AP Health", "name_te": "ఏపి ఆరోగ్యం", "slug": "ap-health" },
+      { "id": "ap-district", "name_en": "AP District Jobs", "name_te": "ఏపి జిల్లా", "slug": "ap-district" },
+      { "id": "ap-universities", "name_en": "AP Universities", "name_te": "ఏపి విశ్వవిద్యాలయాలు", "slug": "ap-universities" }
+    ]
+  },
+  {
+    "group": "Central Govt",
+    "groupSlug": "central",
+    "categories": [
+      { "id": "ssc", "name_en": "SSC", "name_te": "ఎస్ఎస్‌సి", "slug": "ssc" },
+      { "id": "railways", "name_en": "Railways / RRB", "name_te": "రైల్వే", "slug": "railways" },
+      { "id": "central-banking", "name_en": "Banking (Central)", "name_te": "బ్యాంకు", "slug": "central-banking" },
+      { "id": "defence", "name_en": "Defence", "name_te": "రక్షణ", "slug": "defence" },
+      { "id": "post-office", "name_en": "India Post", "name_te": "పోస్టాఫీసు", "slug": "post-office" },
+      { "id": "psu-central", "name_en": "Central PSU", "name_te": "కేంద్ర పిఎస్‌యు", "slug": "psu-central" }
+    ]
+  }
 ]
