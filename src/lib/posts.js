@@ -191,3 +191,22 @@ export async function incrementViews(postId) {
   const { error } = await supabase.rpc('increment_views', { post_id: postId });
   if (error) console.error('Error incrementing views:', error);
 }
+export async function getCategoryCounts() {
+  const { data, error } = await supabase
+    .from('posts')
+    .select('category')
+    .not('category', 'is', null);
+
+  if (error) {
+    console.error('Error fetching category counts:', error);
+    return {};
+  }
+
+  const counts = {};
+  data.forEach((row) => {
+    if (row.category) {
+      counts[row.category] = (counts[row.category] || 0) + 1;
+    }
+  });
+  return counts;
+}

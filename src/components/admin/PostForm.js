@@ -6,10 +6,31 @@ import categoryGroups from '@/data/categories.json';
 
 const TYPES = ['job', 'result', 'admit_card', 'answer_key', 'blog'];
 
+const TYPE_LABELS = {
+  job: 'Job Notification',
+  result: 'Result',
+  admit_card: 'Admit Card / Hall Ticket',
+  answer_key: 'Answer Key',
+  blog: 'Blog / Study Material',
+};
+
 export default function PostForm({ initialData, postId }) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+
+  const initialDatesArray = (() => {
+    if (!initialData?.important_dates) return [];
+    try {
+      const obj =
+        typeof initialData.important_dates === 'string'
+          ? JSON.parse(initialData.important_dates)
+          : initialData.important_dates;
+      return Object.entries(obj).map(([key, value]) => ({ key, value: String(value) }));
+    } catch {
+      return [];
+    }
+  })();
 
   const [form, setForm] = useState({
     type: initialData?.type || 'job',
@@ -17,22 +38,39 @@ export default function PostForm({ initialData, postId }) {
     slug: initialData?.slug || '',
     category: initialData?.category || '',
     state: initialData?.state || '',
+    location: initialData?.location || '',
     department: initialData?.department || '',
     organization: initialData?.organization || '',
     qualification: initialData?.qualification || '',
     vacancies: initialData?.vacancies || '',
     salary: initialData?.salary || '',
     age_limit: initialData?.age_limit || '',
-    location: initialData?.location || '',
     application_start: initialData?.application_start || '',
     application_end: initialData?.application_end || '',
+    exam_date: initialData?.exam_date || '',
+    admit_card_date: initialData?.admit_card_date || '',
+    result_date: initialData?.result_date || '',
     status: initialData?.status || 'open',
+    recruitment_group: initialData?.recruitment_group || '',
     summary: initialData?.summary || '',
     content: initialData?.content || '',
     official_link: initialData?.official_link || '',
     apply_url: initialData?.apply_url || '',
+    admit_card_url: initialData?.admit_card_url || '',
+    result_url: initialData?.result_url || '',
     cover_color: initialData?.cover_color || '#0f2d3d',
   });
+
+  const [importantDates, setImportantDates] = useState(
+    initialDatesArray.length ? initialDatesArray : [{ key: '', value: '' }]
+  );
+
+  const type = form.type;
+  const isJob = type === 'job';
+  const isResult = type === 'result';
+  const isAdmitCard = type === 'admit_card';
+  const isAnswerKey = type === 'answer_key';
+  const isBlog = type === 'blog';
 
   function update(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -46,16 +84,47 @@ export default function PostForm({ initialData, postId }) {
     update('slug', slug);
   }
 
+  function updateDateRow(index, field, value) {
+    setImportantDates((prev) => {
+      const next = [...prev];
+      next[index] = { ...next[index], [field]: value };
+      return next;
+    });
+  }
+
+  function addDateRow() {
+    setImportantDates((prev) => [...prev, { key: '', value: '' }]);
+  }
+
+  function removeDateRow(index) {
+    setImportantDates((prev) => prev.filter((_, i) => i !== index));
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
     setSaving(true);
     setError('');
+
+    const datesObject = {};
+    importantDates.forEach(({ key, value }) => {
+      if (key.trim()) {
+        datesObject[key.trim().replace(/\s+/g, '_').toLowerCase()] = value;
+      }
+    });
 
     const payload = {
       ...form,
       vacancies: form.vacancies ? parseInt(form.vacancies) : null,
       application_start: form.application_start || null,
       application_end: form.application_end || null,
+      exam_date: form.exam_date || null,
+      admit_card_date: form.admit_card_date || null,
+      result_date: form.result_date || null,
+      recruitment_group: form.recruitment_group || null,
+      location: form.location || null,
+      admit_card_url: form.admit_card_url || null,
+      result_url: form.result_url || null,
+      important_dates: Object.keys(datesObject).length ? datesObject : null,
     };
 
     const url = postId ? `/api/admin/posts/${postId}` : '/api/admin/posts';
@@ -82,8 +151,9 @@ export default function PostForm({ initialData, postId }) {
     <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl">
       {error && <p className="text-red-600 bg-red-50 p-3 rounded-lg text-sm">{error}</p>}
 
+      {/* ---------------- Type ---------------- */}
       <div>
-        <label className="block text-sm font-medium mb-1">Type *</label>
+        <label className="block text-sm font-medium mb-1">Post Type *</label>
         <select
           value={form.type}
           onChange={(e) => update('type', e.target.value)}
@@ -91,17 +161,24 @@ export default function PostForm({ initialData, postId }) {
           required
         >
           {TYPES.map((t) => (
-            <option key={t} value={t}>{t.replace('_', ' ')}</option>
+            <option key={t} value={t}>{TYPE_LABELS[t]}</option>
           ))}
         </select>
+        <p className="text-xs text-gray-400 mt-1">
+          {isJob && 'Full recruitment details: vacancies, salary, dates, eligibility.'}
+          {(isResult || isAdmitCard || isAnswerKey) && 'A lighter update tied to an existing recruitment.'}
+          {isBlog && 'Study material, guides, and general articles — no recruitment fields needed.'}
+        </p>
       </div>
 
+      {/* ---------------- Basic Info (all types) ---------------- */}
       <div>
         <label className="block text-sm font-medium mb-1">Title *</label>
         <input
           type="text"
           value={form.title}
           onChange={(e) => update('title', e.target.value)}
+          placeholder={isBlog ? 'e.g. How to Apply for TGPSC Group-2 Online — Step by Step Guide' : 'e.g. TGPSC Group-2 Services Recruitment 2026'}
           className="w-full border border-gray-300 rounded-lg px-3 py-2"
           required
         />
@@ -114,6 +191,7 @@ export default function PostForm({ initialData, postId }) {
             type="text"
             value={form.slug}
             onChange={(e) => update('slug', e.target.value)}
+            placeholder="auto-generated-from-title"
             className="flex-1 border border-gray-300 rounded-lg px-3 py-2"
             required
           />
@@ -127,127 +205,294 @@ export default function PostForm({ initialData, postId }) {
         </div>
       </div>
 
+      {!isBlog && (
+        <div>
+          <label className="block text-sm font-medium mb-1">
+            Recruitment Group{' '}
+            <span className="text-gray-400 font-normal">
+              (links this post to its notification/admit card/result set)
+            </span>
+          </label>
+          <input
+            type="text"
+            value={form.recruitment_group}
+            onChange={(e) => update('recruitment_group', e.target.value)}
+            placeholder="e.g. tgpsc-group2-2026"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2"
+          />
+        </div>
+      )}
+
       <div className="grid grid-cols-2 gap-4">
         <div>
-  <label className="block text-sm font-medium mb-1">Category</label>
-  <select
-    value={form.category}
-    onChange={(e) => update('category', e.target.value)}
-    className="w-full border border-gray-300 rounded-lg px-3 py-2"
-  >
-    <option value="">Select category</option>
-    {categoryGroups.map((group) => (
-      <optgroup key={group.groupSlug} label={group.group}>
-        {group.categories.map((cat) => (
-          <option key={cat.id} value={cat.slug}>{cat.name_en}</option>
-        ))}
-      </optgroup>
-    ))}
-  </select>
-</div>
+          <label className="block text-sm font-medium mb-1">Category</label>
+          <select
+            value={form.category}
+            onChange={(e) => update('category', e.target.value)}
+            className="w-full border border-gray-300 rounded-lg px-3 py-2"
+          >
+            <option value="">Select category</option>
+            {categoryGroups.map((group) => (
+              <optgroup key={group.groupSlug} label={group.group}>
+                {group.categories.map((cat) => (
+                  <option key={cat.id} value={cat.slug}>{cat.name_en}</option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
+        </div>
         <div>
           <label className="block text-sm font-medium mb-1">State</label>
           <input
             type="text"
             value={form.state}
             onChange={(e) => update('state', e.target.value)}
+            placeholder="Telangana / Andhra Pradesh / All India"
             className="w-full border border-gray-300 rounded-lg px-3 py-2"
           />
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      {!isBlog && (
         <div>
-          <label className="block text-sm font-medium mb-1">Department</label>
+          <label className="block text-sm font-medium mb-1">Location (district / city / area)</label>
           <input
             type="text"
-            value={form.department}
-            onChange={(e) => update('department', e.target.value)}
+            value={form.location}
+            onChange={(e) => update('location', e.target.value)}
+            placeholder="e.g. Hyderabad, Multiple Districts, Telangana State"
             className="w-full border border-gray-300 rounded-lg px-3 py-2"
           />
         </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Organization</label>
-          <input
-            type="text"
-            value={form.organization}
-            onChange={(e) => update('organization', e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2"
-          />
-        </div>
-      </div>
+      )}
 
-      <div className="grid grid-cols-3 gap-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">Vacancies</label>
-          <input
-            type="number"
-            value={form.vacancies}
-            onChange={(e) => update('vacancies', e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2"
-          />
+      {!isBlog && (
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">Department</label>
+            <input
+              type="text"
+              value={form.department}
+              onChange={(e) => update('department', e.target.value)}
+              placeholder="e.g. Revenue, Excise, School Education"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Organization</label>
+            <input
+              type="text"
+              value={form.organization}
+              onChange={(e) => update('organization', e.target.value)}
+              placeholder="e.g. TGPSC, TSLPRB, TSRTC"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+            />
+          </div>
         </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Salary</label>
-          <input
-            type="text"
-            value={form.salary}
-            onChange={(e) => update('salary', e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Age Limit</label>
-          <input
-            type="text"
-            value={form.age_limit}
-            onChange={(e) => update('age_limit', e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2"
-          />
-        </div>
-      </div>
+      )}
 
-      <div className="grid grid-cols-2 gap-4">
+      {/* ---------------- Job-only fields ---------------- */}
+      {isJob && (
+        <>
+          <div className="grid grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-1">Vacancies</label>
+              <input
+                type="number"
+                value={form.vacancies}
+                onChange={(e) => update('vacancies', e.target.value)}
+                placeholder="e.g. 891"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Salary</label>
+              <input
+                type="text"
+                value={form.salary}
+                onChange={(e) => update('salary', e.target.value)}
+                placeholder="e.g. Rs. 22,460 - Rs. 66,330"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Age Limit</label>
+              <input
+                type="text"
+                value={form.age_limit}
+                onChange={(e) => update('age_limit', e.target.value)}
+                placeholder="e.g. 18-44 years"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">Qualification</label>
+            <input
+              type="text"
+              value={form.qualification}
+              onChange={(e) => update('qualification', e.target.value)}
+              placeholder="e.g. Bachelor Degree, Intermediate, 10th Pass"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+            />
+          </div>
+
+          <div className="border-t pt-6">
+            <h3 className="font-semibold text-sm mb-4 text-[#123C69]">Application Window</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Application Start</label>
+                <input
+                  type="date"
+                  value={form.application_start}
+                  onChange={(e) => update('application_start', e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                />
+                <p className="text-xs text-gray-400 mt-1">Date the online application opens.</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Application End</label>
+                <input
+                  type="date"
+                  value={form.application_end}
+                  onChange={(e) => update('application_end', e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                />
+                <p className="text-xs text-gray-400 mt-1">Last date to apply — powers the "Closing Soon" badge.</p>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* ---------------- Result-only field ---------------- */}
+      {isResult && (
         <div>
-          <label className="block text-sm font-medium mb-1">Application Start</label>
+          <label className="block text-sm font-medium mb-1">Result Date</label>
           <input
             type="date"
-            value={form.application_start}
-            onChange={(e) => update('application_start', e.target.value)}
+            value={form.result_date}
+            onChange={(e) => update('result_date', e.target.value)}
             className="w-full border border-gray-300 rounded-lg px-3 py-2"
           />
+          <p className="text-xs text-gray-400 mt-1">Date the result was officially declared.</p>
         </div>
+      )}
+
+      {/* ---------------- Admit Card-only fields ---------------- */}
+      {isAdmitCard && (
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">Admit Card Release Date</label>
+            <input
+              type="date"
+              value={form.admit_card_date}
+              onChange={(e) => update('admit_card_date', e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Exam Date</label>
+            <input
+              type="date"
+              value={form.exam_date}
+              onChange={(e) => update('exam_date', e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+            />
+            <p className="text-xs text-gray-400 mt-1">The exam this hall ticket is for.</p>
+          </div>
+        </div>
+      )}
+
+      {/* ---------------- Answer Key-only field ---------------- */}
+      {isAnswerKey && (
         <div>
-          <label className="block text-sm font-medium mb-1">Application End</label>
+          <label className="block text-sm font-medium mb-1">Exam Date</label>
           <input
             type="date"
-            value={form.application_end}
-            onChange={(e) => update('application_end', e.target.value)}
+            value={form.exam_date}
+            onChange={(e) => update('exam_date', e.target.value)}
             className="w-full border border-gray-300 rounded-lg px-3 py-2"
           />
+          <p className="text-xs text-gray-400 mt-1">The exam this answer key corresponds to.</p>
         </div>
-      </div>
+      )}
 
-      <div>
-        <label className="block text-sm font-medium mb-1">Status</label>
-        <select
-          value={form.status}
-          onChange={(e) => update('status', e.target.value)}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2"
-        >
-          <option value="upcoming">Upcoming</option>
-          <option value="open">Open</option>
-          <option value="closing_soon">Closing Soon</option>
-          <option value="closed">Closed</option>
-        </select>
-      </div>
+      {/* ---------------- Status (skip for blog) ---------------- */}
+      {!isBlog && (
+        <div>
+          <label className="block text-sm font-medium mb-1">Status</label>
+          <select
+            value={form.status}
+            onChange={(e) => update('status', e.target.value)}
+            className="w-full border border-gray-300 rounded-lg px-3 py-2"
+          >
+            <option value="upcoming">Upcoming</option>
+            <option value="open">Open</option>
+            <option value="closing_soon">Closing Soon</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+      )}
 
+      {/* ---------------- Important Dates box (job, admit_card, answer_key) ---------------- */}
+      {(isJob || isAdmitCard || isAnswerKey) && (
+        <div className="border-t pt-6">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-semibold text-sm text-[#123C69]">
+              Important Dates Box{' '}
+              <span className="text-gray-400 font-normal">
+                (highlighted card shown on the detail page)
+              </span>
+            </h3>
+            <button
+              type="button"
+              onClick={addDateRow}
+              className="text-xs font-semibold text-[#00897B] hover:underline"
+            >
+              + Add Row
+            </button>
+          </div>
+
+          <div className="space-y-2">
+            {importantDates.map((row, i) => (
+              <div key={i} className="flex gap-2">
+                <input
+                  type="text"
+                  value={row.key}
+                  onChange={(e) => updateDateRow(i, 'key', e.target.value)}
+                  placeholder="Label (e.g. Notification Date)"
+                  className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                />
+                <input
+                  type="text"
+                  value={row.value}
+                  onChange={(e) => updateDateRow(i, 'value', e.target.value)}
+                  placeholder="Value (e.g. 15 Aug 2026)"
+                  className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                />
+                <button
+                  type="button"
+                  onClick={() => removeDateRow(i)}
+                  className="px-3 text-red-500 hover:bg-red-50 rounded-lg text-sm font-medium"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ---------------- Content (all types) ---------------- */}
       <div>
         <label className="block text-sm font-medium mb-1">Summary (short, for cards)</label>
         <textarea
           value={form.summary}
           onChange={(e) => update('summary', e.target.value)}
           rows={2}
+          placeholder="One or two sentences shown on listing cards"
           className="w-full border border-gray-300 rounded-lg px-3 py-2"
         />
       </div>
@@ -260,30 +505,84 @@ export default function PostForm({ initialData, postId }) {
           value={form.content}
           onChange={(e) => update('content', e.target.value)}
           rows={16}
+          placeholder={
+            isBlog
+              ? '**Overview**\nStart with an intro paragraph...\n\n**Key Points**\n- First point\n- Second point'
+              : '**Overview**\nDescribe the recruitment/update...\n\n**Key Highlights**\n- Total vacancies: ...\n- Eligibility: ...'
+          }
           className="w-full border border-gray-300 rounded-lg px-3 py-2 font-mono text-sm"
           required
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">Official Link</label>
-          <input
-            type="url"
-            value={form.official_link}
-            onChange={(e) => update('official_link', e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Apply URL</label>
-          <input
-            type="url"
-            value={form.apply_url}
-            onChange={(e) => update('apply_url', e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2"
-          />
-        </div>
+      {/* ---------------- Links ---------------- */}
+      <div className="border-t pt-6">
+        <h3 className="font-semibold text-sm mb-4 text-[#123C69]">Links</h3>
+
+        {isBlog ? (
+          <div>
+            <label className="block text-sm font-medium mb-1">Reference Link (optional)</label>
+            <input
+              type="url"
+              value={form.official_link}
+              onChange={(e) => update('official_link', e.target.value)}
+              placeholder="https://..."
+              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+            />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-1">Official Website Link</label>
+              <input
+                type="url"
+                value={form.official_link}
+                onChange={(e) => update('official_link', e.target.value)}
+                placeholder="https://tspsc.gov.in"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2"
+              />
+            </div>
+
+            {isJob && (
+              <div>
+                <label className="block text-sm font-medium mb-1">Apply URL</label>
+                <input
+                  type="url"
+                  value={form.apply_url}
+                  onChange={(e) => update('apply_url', e.target.value)}
+                  placeholder="Direct application link, if known"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                />
+              </div>
+            )}
+
+            {isAdmitCard && (
+              <div>
+                <label className="block text-sm font-medium mb-1">Admit Card Download URL</label>
+                <input
+                  type="url"
+                  value={form.admit_card_url}
+                  onChange={(e) => update('admit_card_url', e.target.value)}
+                  placeholder="Direct download link, if known"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                />
+              </div>
+            )}
+
+            {isResult && (
+              <div>
+                <label className="block text-sm font-medium mb-1">Result / Scorecard URL</label>
+                <input
+                  type="url"
+                  value={form.result_url}
+                  onChange={(e) => update('result_url', e.target.value)}
+                  placeholder="Direct result link, if known"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                />
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       <button
