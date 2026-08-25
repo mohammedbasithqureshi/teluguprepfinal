@@ -1,0 +1,46 @@
+{
+  "qualifications": [
+    { "id": "10th", "label": "10th Pass (SSC)", "level": 1 },
+    { "id": "12th", "label": "12th Pass / Intermediate", "level": 2 },
+    { "id": "iti", "label": "ITI", "level": 2 },
+    { "id": "diploma", "label": "Diploma (Polytechnic)", "level": 3 },
+    { "id": "degree-any", "label": "Any Graduation Degree", "level": 4 },
+    { "id": "btech", "label": "B.Tech / B.E (Engineering)", "level": 4 },
+    { "id": "bed", "label": "B.Ed / D.El.Ed", "level": 4 },
+    { "id": "medical", "label": "Medical / Nursing / Pharmacy Degree", "level": 4 },
+    { "id": "law", "label": "Law Degree (LLB)", "level": 4 },
+    { "id": "pg", "label": "Post Graduation (PG/M.Tech/M.Sc/MBA)", "level": 5 },
+    { "id": "phd", "label": "Ph.D", "level": 6 }
+  ],
+  "engineeringBranches": [
+    { "id": "cse", "label": "CSE / IT" },
+    { "id": "mech", "label": "Mechanical" },
+    { "id": "eee", "label": "EEE" },
+    { "id": "ece", "label": "ECE" },
+    { "id": "civil", "label": "Civil" },
+    { "id": "other", "label": "Other Branch" }
+  ],
+  "casteCategories": [
+    { "id": "general", "label": "General / UR", "ageRelaxation": 0, "note": "Competes under unreserved rules; no category age relaxation." },
+    { "id": "ews", "label": "EWS", "ageRelaxation": 0, "note": "Reservation benefit applies with valid EWS certificate; no standard age relaxation." },
+    { "id": "obc", "label": "OBC / BC (Non-Creamy Layer)", "ageRelaxation": 3, "note": "Reservation and age relaxation with valid OBC-NCL/BC certificate." },
+    { "id": "sc", "label": "SC", "ageRelaxation": 5, "note": "Reservation, age relaxation, and sometimes lower qualifying marks." },
+    { "id": "st", "label": "ST", "ageRelaxation": 5, "note": "Reservation, age relaxation, and sometimes lower qualifying marks." },
+    { "id": "pwd", "label": "PwBD (Disability)", "ageRelaxation": 10, "note": "Reservation and age relaxation per disability category — combinable with other category relaxation." },
+    { "id": "ex-servicemen", "label": "Ex-Servicemen", "ageRelaxation": 3, "note": "Relaxation equal to service years plus 3, per recruitment rules." },
+    { "id": "women", "label": "Women", "ageRelaxation": 0, "note": "May receive horizontal reservation in some state recruitments." }
+  ],
+  "qualificationEligibility": {
+    "10th": ["10th"],
+    "12th": ["10th", "12th"],
+    "iti": ["10th", "iti"],
+    "diploma": ["10th", "12th", "diploma"],
+    "degree-any": ["10th", "12th", "degree-any"],
+    "btech": ["10th", "12th", "diploma", "degree-any", "btech"],
+    "bed": ["10th", "12th", "degree-any", "bed"],
+    "medical": ["10th", "12th", "medical"],
+    "law": ["10th", "12th", "degree-any", "law"],
+    "pg": ["10th", "12th", "diploma", "degree-any", "btech", "bed", "medical", "law", "pg"],
+    "phd": ["10th", "12th", "diploma", "degree-any", "btech", "bed", "medical", "law", "pg", "phd"]
+  }
+}

@@ -3,11 +3,13 @@
     { "label": "Home", "href": "/" },
     { "label": "Notifications", "href": "/jobs" },
     { "label": "Results", "href": "/results" },
+    { "label": "Eligibility Check", "href": "/eligibility-check" },
     { "label": "Admit Card", "href": "/admit-card" },
     { "label": "Answer Key", "href": "/answer-key" },
     { "label": "Blog", "href": "/blog" },
     { "label": "About", "href": "/about" },
     { "label": "Contact", "href": "/contact" }
+
   ],
   "footerExplore": [
     { "label": "Latest Jobs", "href": "/jobs" },
