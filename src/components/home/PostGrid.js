@@ -6,6 +6,7 @@ const typeLabels = {
   result: 'RESULT',
   admit_card: 'ADMIT CARD',
   answer_key: 'ANSWER KEY',
+  scheme: 'SCHEME',
 };
 
 const typeColors = {
@@ -13,6 +14,8 @@ const typeColors = {
   result: { badge: 'bg-green-50 text-green-700', dot: 'bg-green-600' },
   admit_card: { badge: 'bg-purple-50 text-purple-700', dot: 'bg-purple-600' },
   answer_key: { badge: 'bg-yellow-50 text-yellow-700', dot: 'bg-yellow-500' },
+  scheme: { badge: 'bg-pink-50 text-pink-700', dot: 'bg-pink-500' },
+  blog: { badge: 'bg-orange-50 text-orange-700', dot: 'bg-orange-500' },
 };
 
 function timeAgo(dateStr) {

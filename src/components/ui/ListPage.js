@@ -5,6 +5,7 @@ const typeLabels = {
   result: 'RESULT',
   admit_card: 'ADMIT CARD',
   answer_key: 'ANSWER KEY',
+  scheme: 'SCHEME',
 };
 
 const typeColors = {
@@ -12,6 +13,7 @@ const typeColors = {
   result: 'bg-green-50 text-green-700',
   admit_card: 'bg-blue-50 text-blue-700',
   answer_key: 'bg-purple-50 text-purple-700',
+  scheme: 'bg-pink-50 text-pink-700',
 };
 
 function timeAgo(dateStr) {

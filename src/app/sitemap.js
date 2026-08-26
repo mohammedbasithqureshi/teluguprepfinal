@@ -5,7 +5,7 @@ const BASE_URL = 'https://teluguprep.in';
 export default async function sitemap() {
   const staticRoutes = [
     '', '/jobs', '/results', '/admit-card', '/answer-key', '/blog',
-    '/about', '/contact', '/privacy-policy', '/terms', '/disclaimer',
+    '/about', '/contact', '/privacy-policy', '/terms', '/disclaimer','/schemes',
   ].map((path) => ({
     url: `${BASE_URL}${path}`,
     lastModified: new Date(),
@@ -19,6 +19,7 @@ export default async function sitemap() {
     { type: 'admit_card', base: '/admit-card' },
     { type: 'answer_key', base: '/answer-key' },
     { type: 'blog', base: '/blog' },
+    { type: 'scheme', base: '/schemes' },
   ];
 
   const dynamicRoutes = [];

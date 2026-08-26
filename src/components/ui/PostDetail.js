@@ -8,6 +8,7 @@ const typeLabels = {
   result: 'RESULT',
   admit_card: 'ADMIT CARD',
   answer_key: 'ANSWER KEY',
+  scheme: 'SCHEME',
   blog: 'BLOG',
 };
 
@@ -27,6 +28,10 @@ const typeColors = {
   answer_key: {
     badge: 'bg-yellow-50 text-yellow-700',
     dot: 'bg-yellow-500',
+  },
+  scheme: {
+    badge: 'bg-pink-50 text-pink-700',
+    dot: 'bg-pink-500',
   },
   blog: {
     badge: 'bg-orange-50 text-orange-700',
@@ -54,6 +59,7 @@ function getPostHref(post) {
     result: 'results',
     admit_card: 'admit-card',
     answer_key: 'answer-key',
+    scheme: 'schemes',
     blog: 'blog',
   };
 

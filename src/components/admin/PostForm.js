@@ -4,13 +4,14 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import categoryGroups from '@/data/categories.json';
 
-const TYPES = ['job', 'result', 'admit_card', 'answer_key', 'blog'];
+const TYPES = ['job', 'result', 'admit_card', 'answer_key', 'scheme', 'blog'];
 
 const TYPE_LABELS = {
   job: 'Job Notification',
   result: 'Result',
   admit_card: 'Admit Card / Hall Ticket',
   answer_key: 'Answer Key',
+  scheme: 'Government Scheme',
   blog: 'Blog / Study Material',
 };
 
@@ -59,6 +60,10 @@ export default function PostForm({ initialData, postId }) {
     admit_card_url: initialData?.admit_card_url || '',
     result_url: initialData?.result_url || '',
     cover_color: initialData?.cover_color || '#0f2d3d',
+    // Scheme-specific fields
+    beneficiary: initialData?.beneficiary || '',
+    scheme_amount: initialData?.scheme_amount || '',
+    launched_by: initialData?.launched_by || '',
   });
 
   const [importantDates, setImportantDates] = useState(
@@ -70,6 +75,7 @@ export default function PostForm({ initialData, postId }) {
   const isResult = type === 'result';
   const isAdmitCard = type === 'admit_card';
   const isAnswerKey = type === 'answer_key';
+  const isScheme = type === 'scheme';
   const isBlog = type === 'blog';
 
   function update(field, value) {
@@ -167,6 +173,7 @@ export default function PostForm({ initialData, postId }) {
         <p className="text-xs text-gray-400 mt-1">
           {isJob && 'Full recruitment details: vacancies, salary, dates, eligibility.'}
           {(isResult || isAdmitCard || isAnswerKey) && 'A lighter update tied to an existing recruitment.'}
+          {isScheme && 'Government scheme details: beneficiaries, amount/benefit, launching authority.'}
           {isBlog && 'Study material, guides, and general articles — no recruitment fields needed.'}
         </p>
       </div>
@@ -178,7 +185,13 @@ export default function PostForm({ initialData, postId }) {
           type="text"
           value={form.title}
           onChange={(e) => update('title', e.target.value)}
-          placeholder={isBlog ? 'e.g. How to Apply for TGPSC Group-2 Online — Step by Step Guide' : 'e.g. TGPSC Group-2 Services Recruitment 2026'}
+          placeholder={
+            isBlog
+              ? 'e.g. How to Apply for TGPSC Group-2 Online — Step by Step Guide'
+              : isScheme
+              ? 'e.g. Rythu Bandhu Scheme 2026 – Farmer Investment Support'
+              : 'e.g. TGPSC Group-2 Services Recruitment 2026'
+          }
           className="w-full border border-gray-300 rounded-lg px-3 py-2"
           required
         />
@@ -205,7 +218,8 @@ export default function PostForm({ initialData, postId }) {
         </div>
       </div>
 
-      {!isBlog && (
+      {/* Recruitment Group — hide for blog and scheme */}
+      {!isBlog && !isScheme && (
         <div>
           <label className="block text-sm font-medium mb-1">
             Recruitment Group{' '}
@@ -266,6 +280,7 @@ export default function PostForm({ initialData, postId }) {
         </div>
       )}
 
+      {/* Department / Organization — keep visible for schemes */}
       {!isBlog && (
         <div className="grid grid-cols-2 gap-4">
           <div>
@@ -419,6 +434,42 @@ export default function PostForm({ initialData, postId }) {
         </div>
       )}
 
+      {/* ---------------- Scheme-only fields ---------------- */}
+      {isScheme && (
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">Beneficiary</label>
+            <input
+              type="text"
+              value={form.beneficiary}
+              onChange={(e) => update('beneficiary', e.target.value)}
+              placeholder="e.g. Farmers, Women, Students"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Scheme Amount / Benefit</label>
+            <input
+              type="text"
+              value={form.scheme_amount}
+              onChange={(e) => update('scheme_amount', e.target.value)}
+              placeholder="e.g. Rs. 10,000 per acre per year"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+            />
+          </div>
+          <div className="col-span-2">
+            <label className="block text-sm font-medium mb-1">Launched By</label>
+            <input
+              type="text"
+              value={form.launched_by}
+              onChange={(e) => update('launched_by', e.target.value)}
+              placeholder="e.g. Government of Telangana"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2"
+            />
+          </div>
+        </div>
+      )}
+
       {/* ---------------- Status (skip for blog) ---------------- */}
       {!isBlog && (
         <div>
@@ -508,6 +559,8 @@ export default function PostForm({ initialData, postId }) {
           placeholder={
             isBlog
               ? '**Overview**\nStart with an intro paragraph...\n\n**Key Points**\n- First point\n- Second point'
+              : isScheme
+              ? '**Overview**\nDescribe the scheme...\n\n**Eligibility**\n- ...\n\n**How to Apply**\n- ...'
               : '**Overview**\nDescribe the recruitment/update...\n\n**Key Highlights**\n- Total vacancies: ...\n- Eligibility: ...'
           }
           className="w-full border border-gray-300 rounded-lg px-3 py-2 font-mono text-sm"
