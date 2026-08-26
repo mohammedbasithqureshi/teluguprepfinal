@@ -1,48 +1,110 @@
 'use client';
 
-import { Share2, Check, Link2, MessageCircle, Send, Globe } from 'lucide-react';
+import {
+  Share2,
+  Check,
+  Link2,
+  MessageCircle,
+  Send,
+  Globe,
+} from 'lucide-react';
+
 import { useState, useRef, useEffect } from 'react';
 
 export default function ShareButton({ title, url }) {
   const [copied, setCopied] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
   const dropdownRef = useRef(null);
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
         setIsOpen(false);
       }
     }
+
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener(
+        'mousedown',
+        handleClickOutside
+      );
+    };
   }, []);
 
-  const shareUrl = url || (typeof window !== 'undefined' ? window.location.href : '');
-  const encodedUrl = encodeURIComponent(shareUrl);
-  const encodedTitle = encodeURIComponent(title || '');
+  /*
+   * Get the EXACT page URL.
+   *
+   * If a URL is passed manually, use it.
+   * Otherwise use the current browser URL.
+   */
+  function getShareUrl() {
+    if (url) {
+      return url;
+    }
+
+    if (typeof window !== 'undefined') {
+      return window.location.href;
+    }
+
+    return '';
+  }
 
   async function handleNativeShare() {
+    const shareUrl = getShareUrl();
+
+    if (!shareUrl) return;
+
     if (navigator.share) {
       try {
-        await navigator.share({ title, url: shareUrl });
+        await navigator.share({
+          title: title || 'TeluguPrep',
+          text: title || '',
+          url: shareUrl,
+        });
+
         setIsOpen(false);
         return;
-      } catch (err) {
-        // Fallback to dropdown
+      } catch (error) {
+        // User cancelled native share.
+        // Show dropdown as fallback.
       }
     }
-    setIsOpen(!isOpen);
+
+    setIsOpen((prev) => !prev);
   }
 
   async function handleCopyLink() {
-    await navigator.clipboard.writeText(shareUrl);
-    setCopied(true);
-    setTimeout(() => {
-      setCopied(false);
-      setIsOpen(false);
-    }, 1500);
+    const shareUrl = getShareUrl();
+
+    if (!shareUrl) return;
+
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+
+      setCopied(true);
+
+      setTimeout(() => {
+        setCopied(false);
+        setIsOpen(false);
+      }, 1500);
+    } catch (error) {
+      console.error('Failed to copy link:', error);
+    }
   }
+
+  const shareUrl =
+    typeof window !== 'undefined'
+      ? getShareUrl()
+      : '';
+
+  const encodedUrl = encodeURIComponent(shareUrl);
+  const encodedTitle = encodeURIComponent(title || '');
 
   const shareOptions = [
     {
@@ -72,36 +134,93 @@ export default function ShareButton({ title, url }) {
   ];
 
   return (
-    <div className="relative inline-block text-left" ref={dropdownRef}>
+    <div
+      className="relative inline-block text-left"
+      ref={dropdownRef}
+    >
+      {/* Share Button */}
       <button
+        type="button"
         onClick={handleNativeShare}
-        className="inline-flex items-center gap-2 border border-gray-300 hover:border-[var(--color-teal)] hover:text-[var(--color-teal)] px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+        className="
+          inline-flex
+          items-center
+          gap-2
+          border-[2px]
+          border-[#ab1738]
+          bg-white
+          px-4
+          py-2
+          text-sm
+          font-bold
+          text-[#ab1738]
+          transition-colors
+          hover:bg-[#ab1738]
+          hover:text-white
+        "
       >
-        <Share2 className="w-4 h-4" />
+        <Share2 className="h-4 w-4" />
         Share
       </button>
 
+      {/* Dropdown */}
       {isOpen && (
-        <div className="absolute left-0 mt-2 w-48 rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 z-50 p-1 divide-y divide-gray-100">
-          <div className="py-1">
+        <div
+          className="
+            absolute
+            left-0
+            z-50
+            mt-2
+            w-52
+            border-[2px]
+            border-[#ab1738]
+            bg-white
+            shadow-lg
+          "
+        >
+          {/* Copy Link */}
+          <div className="border-b border-gray-200 p-1">
             <button
+              type="button"
               onClick={handleCopyLink}
-              className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg flex items-center gap-2.5 transition-colors"
+              className="
+                flex
+                w-full
+                items-center
+                gap-2.5
+                px-3
+                py-2.5
+                text-left
+                text-sm
+                text-gray-700
+                hover:bg-gray-50
+              "
             >
               {copied ? (
-                <Check className="w-4 h-4 text-green-600" />
+                <Check className="h-4 w-4 text-green-600" />
               ) : (
-                <Link2 className="w-4 h-4 text-gray-500" />
+                <Link2 className="h-4 w-4 text-gray-500" />
               )}
-              <span className={copied ? 'text-green-600 font-medium' : ''}>
-                {copied ? 'Link Copied!' : 'Copy Link'}
+
+              <span
+                className={
+                  copied
+                    ? 'font-medium text-green-600'
+                    : ''
+                }
+              >
+                {copied
+                  ? 'Link Copied!'
+                  : 'Copy Link'}
               </span>
             </button>
           </div>
 
-          <div className="py-1">
+          {/* Social Share */}
+          <div className="p-1">
             {shareOptions.map((option) => {
               const Icon = option.icon;
+
               return (
                 <a
                   key={option.name}
@@ -109,9 +228,21 @@ export default function ShareButton({ title, url }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setIsOpen(false)}
-                  className={`px-3 py-2 text-sm text-gray-700 rounded-lg flex items-center gap-2.5 transition-colors ${option.color}`}
+                  className={`
+                    flex
+                    items-center
+                    gap-2.5
+                    rounded
+                    px-3
+                    py-2.5
+                    text-sm
+                    text-gray-700
+                    transition-colors
+                    ${option.color}
+                  `}
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className="h-4 w-4" />
+
                   <span>{option.name}</span>
                 </a>
               );

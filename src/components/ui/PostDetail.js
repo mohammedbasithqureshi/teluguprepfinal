@@ -14,28 +14,22 @@ const typeLabels = {
 
 const typeColors = {
   job: {
-    badge: 'bg-blue-50 text-[#123C69]',
-    dot: 'bg-[#123C69]',
+    header: 'bg-[#ab1738]',
   },
   result: {
-    badge: 'bg-green-50 text-green-700',
-    dot: 'bg-green-600',
+    header: 'bg-[#123C69]',
   },
   admit_card: {
-    badge: 'bg-purple-50 text-purple-700',
-    dot: 'bg-purple-600',
+    header: 'bg-[#00897B]',
   },
   answer_key: {
-    badge: 'bg-yellow-50 text-yellow-700',
-    dot: 'bg-yellow-500',
+    header: 'bg-[#8a6500]',
   },
   scheme: {
-    badge: 'bg-pink-50 text-pink-700',
-    dot: 'bg-pink-500',
+    header: 'bg-[#7b1fa2]',
   },
   blog: {
-    badge: 'bg-orange-50 text-orange-700',
-    dot: 'bg-orange-500',
+    header: 'bg-[#d35400]',
   },
 };
 
@@ -80,12 +74,6 @@ function renderContent(content) {
   return blocks.map((block, i) => {
     const trimmed = block.trim();
 
-    /*
-      Heading format:
-
-      **Important Dates**
-    */
-
     if (trimmed.startsWith('**') && trimmed.includes('**')) {
       const headingMatch = trimmed.match(/^\*\*(.+?)\*\*/);
 
@@ -98,7 +86,7 @@ function renderContent(content) {
 
         return (
           <div key={i}>
-            <h2 className="mt-10 mb-4 border-l-4 border-[#00897B] pl-3 text-xl font-bold text-[#123C69] md:text-2xl">
+            <h2 className="mt-9 mb-4 border-l-[4px] border-[#ab1738] pl-3 text-xl font-bold text-[#123C69] md:text-2xl">
               {headingText}
             </h2>
 
@@ -126,14 +114,14 @@ function renderBlockBody(text, key) {
     return (
       <ul
         key={`ul-${key}`}
-        className="my-5 space-y-3 pl-1"
+        className="my-5 space-y-2.5 pl-1"
       >
         {lines.map((line, j) => (
           <li
             key={j}
             className="flex items-start gap-3 leading-7 text-gray-700"
           >
-            <span className="mt-3 h-2 w-2 shrink-0 rounded-full bg-[#00897B]" />
+            <span className="mt-3 h-2 w-2 shrink-0 bg-[#ab1738]" />
 
             <span>
               {line.replace(/^- /, '')}
@@ -164,51 +152,24 @@ function ImportantDates({ dates }) {
   }
 
   return (
-    <section className="mb-8 overflow-hidden rounded-2xl border border-[#D9E4EC] bg-white shadow-sm">
+    <section className="mb-8 border-[3px] border-[#ab1738] bg-white">
       {/* Header */}
-      <div className="bg-[#123C69] px-5 py-4">
-        <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10">
-            <svg
-              className="h-5 w-5 text-[#FFB300]"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <rect
-                width="18"
-                height="18"
-                x="3"
-                y="4"
-                rx="2"
-              />
-              <path d="M16 2v4M8 2v4M3 10h18" />
-            </svg>
-          </div>
-
-          <div>
-            <h2 className="font-bold text-white">
-              Important Dates
-            </h2>
-
-            <p className="text-xs text-blue-100">
-              Keep track of application deadlines
-            </p>
-          </div>
-        </div>
+      <div className="border-b-[3px] border-[#ab1738] bg-[#ab1738] px-4 py-2.5">
+        <h2 className="text-lg font-bold text-white">
+          Important Dates
+        </h2>
       </div>
 
       {/* Dates */}
-      <div className="p-5">
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div className="p-4">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {Object.entries(dates).map(([key, value]) => (
             <div
               key={key}
-              className="rounded-xl border border-gray-100 bg-gray-50 p-3"
+              className="border border-gray-200 bg-gray-50 px-3 py-3"
             >
-              <div className="flex items-center justify-between gap-3">
-                <span className="text-xs font-medium capitalize text-gray-500">
+              <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                <span className="text-xs font-semibold capitalize text-gray-500">
                   {key.replace(/_/g, ' ')}
                 </span>
 
@@ -225,7 +186,7 @@ function ImportantDates({ dates }) {
 }
 
 /* -------------------------------------------------------
-   RELATED POST CARD (used for both Latest Jobs and Most Viewed)
+   RELATED POST CARD
 ------------------------------------------------------- */
 
 function LatestJobCard({ post }) {
@@ -235,51 +196,62 @@ function LatestJobCard({ post }) {
   return (
     <Link
       href={getPostHref(post)}
-      className="group flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-5 transition-all duration-200 hover:-translate-y-1 hover:border-[#00897B] hover:shadow-lg hover:shadow-[#00897B]/10"
+      className="
+        group flex h-full flex-col
+        border-[3px]
+        border-[#ab1738]
+        bg-white
+        transition-colors
+        duration-200
+        hover:bg-[#fffafa]
+      "
     >
-      {/* Badge */}
-      <div className="mb-4 flex items-center justify-between gap-2">
-        <span
-          className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-bold tracking-wide ${colors.badge}`}
-        >
-          <span
-            className={`h-1.5 w-1.5 rounded-full ${colors.dot}`}
-          />
-
+      {/* Type Header */}
+      <div
+        className={`
+          border-b-[3px]
+          border-[#ab1738]
+          px-3
+          py-2
+          ${colors.header}
+        `}
+      >
+        <span className="text-[11px] font-bold tracking-wide text-white">
           {typeLabels[post.type] || 'JOB'}
         </span>
-
-        {post.state && (
-          <span className="max-w-[120px] truncate text-xs text-gray-400">
-            {post.state}
-          </span>
-        )}
       </div>
 
-      {/* Title */}
-      <h3 className="line-clamp-3 text-base font-bold leading-6 text-gray-900 transition-colors group-hover:text-[#00897B]">
-        {post.title}
-      </h3>
+      {/* Content */}
+      <div className="flex flex-1 flex-col p-4">
+        <div className="mb-3 flex items-center justify-end">
+          {post.state && (
+            <span className="max-w-[140px] truncate text-xs text-gray-500">
+              {post.state}
+            </span>
+          )}
+        </div>
 
-      {/* Summary */}
-      {post.summary && (
-        <p className="mt-2 line-clamp-2 text-sm leading-6 text-gray-500">
-          {post.summary}
-        </p>
-      )}
+        <h3 className="line-clamp-3 text-[15px] font-bold leading-6 text-[#0000ee] group-hover:underline">
+          {post.title}
+        </h3>
 
-      {/* Spacer */}
-      <div className="flex-1" />
+        {post.summary && (
+          <p className="mt-2 line-clamp-2 text-sm leading-6 text-gray-600">
+            {post.summary}
+          </p>
+        )}
 
-      {/* Footer */}
-      <div className="mt-5 flex items-center justify-between border-t border-gray-100 pt-4">
-        <span className="text-xs text-gray-400">
-          {formatDate(post.published_at)}
-        </span>
+        <div className="flex-1" />
 
-        <span className="text-xs font-bold text-[#00897B] transition-transform group-hover:translate-x-1">
-          View Details →
-        </span>
+        <div className="mt-4 flex items-center justify-between border-t border-gray-200 pt-3">
+          <span className="text-xs text-gray-500">
+            {formatDate(post.published_at)}
+          </span>
+
+          <span className="text-xs font-bold text-[#ab1738] group-hover:underline">
+            View Details »
+          </span>
+        </div>
       </div>
     </Link>
   );
@@ -301,9 +273,7 @@ export default function PostDetail({
 
   try {
     if (typeof post.important_dates === 'string') {
-      importantDates = JSON.parse(
-        post.important_dates
-      );
+      importantDates = JSON.parse(post.important_dates);
     } else {
       importantDates = post.important_dates;
     }
@@ -314,100 +284,72 @@ export default function PostDetail({
   const colors =
     typeColors[post.type] || typeColors.job;
 
-  /*
-    Remove current post from latest posts
-    and only show 3.
-  */
   const latestJobs = latestPosts
     .filter((item) => item.id !== post.id)
     .slice(0, 3);
 
-  /*
-    Remove current post from most-viewed posts
-    and only show 3.
-  */
   const mostViewed = mostViewedPosts
     .filter((item) => item.id !== post.id)
     .slice(0, 3);
 
   return (
     <article className="bg-white">
-      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+      <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
 
         {/* ------------------------------------------------
             POST HEADER
         ------------------------------------------------ */}
 
-        <header className="mb-8">
-          {/* Type Badge */}
-          <span
-            className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-bold tracking-wide ${colors.badge}`}
+        <header className="mb-8 border-[3px] border-[#ab1738] bg-white">
+          {/* Type */}
+          <div
+            className={`
+              border-b-[3px]
+              border-[#ab1738]
+              px-4
+              py-2
+              ${colors.header}
+            `}
           >
-            <span
-              className={`h-2 w-2 rounded-full ${colors.dot}`}
-            />
-
-            {typeLabels[post.type] || post.type}
-          </span>
-
-          {/* Title */}
-          <h1 className="mt-4 text-3xl font-extrabold leading-tight tracking-tight text-[#123C69] md:text-4xl lg:text-[42px]">
-            {post.title}
-          </h1>
-
-          {/* Meta */}
-          <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-gray-200 pb-6 text-sm text-gray-500">
-            <span className="inline-flex items-center gap-1.5">
-              <svg
-                className="h-4 w-4 text-[#00897B]"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"
-                />
-                <circle cx="12" cy="9" r="2.5" />
-              </svg>
-
-              {post.state || 'All India'}
+            <span className="text-xs font-bold tracking-wide text-white">
+              {typeLabels[post.type] || post.type}
             </span>
+          </div>
 
-            <span className="hidden text-gray-300 sm:inline">
-              •
-            </span>
+          {/* Header Content */}
+          <div className="p-5 md:p-6">
+            <h1 className="text-2xl font-extrabold leading-tight text-[#123C69] md:text-3xl lg:text-4xl">
+              {post.title}
+            </h1>
 
-            <span>
-              Published {formatDate(post.published_at)}
-            </span>
+            <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-gray-200 pt-4 text-sm text-gray-500">
+              <span>
+                <strong className="text-gray-700">State:</strong>{' '}
+                {post.state || 'All India'}
+              </span>
 
-            {typeof post.views === 'number' && (
-              <>
-                <span className="hidden text-gray-300 sm:inline">
-                  •
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <svg
-                    className="h-4 w-4 text-[#00897B]"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"
-                    />
-                    <circle cx="12" cy="12" r="3" />
-                  </svg>
-                  {post.views.toLocaleString('en-IN')} views
-                </span>
-              </>
-            )}
+              <span className="hidden text-gray-300 sm:inline">
+                |
+              </span>
+
+              <span>
+                <strong className="text-gray-700">Published:</strong>{' '}
+                {formatDate(post.published_at)}
+              </span>
+
+              {typeof post.views === 'number' && (
+                <>
+                  <span className="hidden text-gray-300 sm:inline">
+                    |
+                  </span>
+
+                  <span>
+                    <strong className="text-gray-700">Views:</strong>{' '}
+                    {post.views.toLocaleString('en-IN')}
+                  </span>
+                </>
+              )}
+            </div>
           </div>
         </header>
 
@@ -421,8 +363,10 @@ export default function PostDetail({
             CONTENT
         ------------------------------------------------ */}
 
-        <div className="prose-content">
-          {renderContent(post.content)}
+        <div className="mx-auto max-w-4xl">
+          <div className="prose-content">
+            {renderContent(post.content)}
+          </div>
         </div>
 
         {/* ------------------------------------------------
@@ -430,8 +374,8 @@ export default function PostDetail({
         ------------------------------------------------ */}
 
         {post.official_link && (
-          <div className="mt-10 rounded-2xl border border-[#D9E4EC] bg-gradient-to-r from-[#F0F6FA] to-[#EAF8F6] p-5">
-            <p className="mb-3 text-sm font-semibold text-gray-700">
+          <div className="mx-auto mt-10 max-w-4xl border-[3px] border-[#123C69] bg-[#f5f8fa] p-5">
+            <p className="mb-3 text-sm font-bold text-[#123C69]">
               Official Recruitment Website
             </p>
 
@@ -439,10 +383,9 @@ export default function PostDetail({
               href={post.official_link}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#00897B] px-6 py-3 text-sm font-bold text-white shadow-md shadow-[#00897B]/20 transition hover:bg-[#00796B] hover:shadow-lg"
+              className="inline-flex items-center gap-2 bg-[#ab1738] px-5 py-3 text-sm font-bold text-white hover:bg-[#8f1230]"
             >
-              Visit Official Website
-              <span>↗</span>
+              Visit Official Website ↗
             </a>
           </div>
         )}
@@ -451,8 +394,8 @@ export default function PostDetail({
             SHARE
         ------------------------------------------------ */}
 
-        <div className="mt-8 border-t border-gray-100 pt-6">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-400">
+        <div className="mx-auto mt-8 max-w-4xl border-t border-gray-200 pt-6">
+          <p className="mb-3 text-xs font-bold uppercase tracking-wide text-gray-500">
             Share this notification
           </p>
 
@@ -463,7 +406,7 @@ export default function PostDetail({
             DISCLAIMER
         ------------------------------------------------ */}
 
-        <div className="mt-8 rounded-xl border border-yellow-100 bg-yellow-50 p-4">
+        <div className="mx-auto mt-8 max-w-4xl border border-yellow-200 bg-yellow-50 p-4">
           <p className="text-xs leading-5 text-yellow-800">
             <strong>Disclaimer:</strong> This information is
             compiled from official sources for informational
@@ -478,7 +421,7 @@ export default function PostDetail({
             AD
         ------------------------------------------------ */}
 
-        <div className="my-8">
+        <div className="mx-auto my-8 max-w-4xl">
           <AdSlot
             slot="3333333333"
             label="IN-ARTICLE UNIT"
@@ -486,42 +429,38 @@ export default function PostDetail({
         </div>
 
         {/* ------------------------------------------------
-            LATEST (JOBS OR BLOGS, DEPENDING ON POST TYPE)
+            LATEST
         ------------------------------------------------ */}
 
         {latestJobs.length > 0 && (
-          <section className="mt-10 border-t border-gray-200 pt-8">
-            {/* Section Header */}
+          <section className="mt-10 border-t-[3px] border-[#ab1738] pt-6">
             <div className="mb-5 flex items-end justify-between gap-4">
               <div>
-                <div className="mb-2 flex items-center gap-2">
-                  <span className="h-1 w-8 rounded-full bg-[#00897B]" />
-
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#00897B]">
-                    Latest Updates
-                  </span>
-                </div>
-
-                <h2 className="text-2xl font-extrabold text-[#123C69]">
-                  {post.type === 'blog' ? 'Latest Blogs' : 'Latest Jobs'}
+                <h2 className="border-l-[4px] border-[#ab1738] pl-3 text-xl font-bold text-[#123C69] md:text-2xl">
+                  {post.type === 'blog'
+                    ? 'Latest Blogs'
+                    : 'Latest Jobs'}
                 </h2>
 
-                <p className="mt-1 text-sm text-gray-500">
+                <p className="mt-1 pl-4 text-sm text-gray-500">
                   {post.type === 'blog'
-                    ? 'Check out the latest guides and study material.'
-                    : 'Check out the latest government job notifications.'}
+                    ? 'Latest guides and study material.'
+                    : 'Latest government job notifications.'}
                 </p>
               </div>
 
               <Link
-                href={post.type === 'blog' ? '/blog' : '/jobs'}
-                className="hidden shrink-0 rounded-lg px-3 py-2 text-sm font-bold text-[#00897B] transition hover:bg-[#EAF8F6] sm:block"
+                href={
+                  post.type === 'blog'
+                    ? '/blog'
+                    : '/jobs'
+                }
+                className="hidden text-sm font-bold text-[#ab1738] hover:underline sm:block"
               >
-                View All →
+                View All »
               </Link>
             </div>
 
-            {/* Cards */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               {latestJobs.map((item) => (
                 <LatestJobCard
@@ -531,51 +470,46 @@ export default function PostDetail({
               ))}
             </div>
 
-            {/* Mobile View All */}
             <Link
-              href={post.type === 'blog' ? '/blog' : '/jobs'}
-              className="mt-5 flex w-full items-center justify-center rounded-xl border border-[#D9E4EC] bg-white px-4 py-3 text-sm font-bold text-[#00897B] transition hover:border-[#00897B] hover:bg-[#EAF8F6] sm:hidden"
+              href={
+                post.type === 'blog'
+                  ? '/blog'
+                  : '/jobs'
+              }
+              className="mt-5 flex w-full items-center justify-center border-[2px] border-[#ab1738] px-4 py-3 text-sm font-bold text-[#ab1738] hover:bg-[#ab1738] hover:text-white sm:hidden"
             >
-              {post.type === 'blog' ? 'View All Blogs →' : 'View All Jobs →'}
+              {post.type === 'blog'
+                ? 'View All Blogs »'
+                : 'View All Jobs »'}
             </Link>
           </section>
         )}
 
         {/* ------------------------------------------------
-            MOST VIEWED (only rendered when data is passed, e.g. blog pages)
+            MOST VIEWED
         ------------------------------------------------ */}
 
         {mostViewed.length > 0 && (
-          <section className="mt-10 border-t border-gray-200 pt-8">
-            {/* Section Header */}
+          <section className="mt-10 border-t-[3px] border-[#ab1738] pt-6">
             <div className="mb-5 flex items-end justify-between gap-4">
               <div>
-                <div className="mb-2 flex items-center gap-2">
-                  <span className="h-1 w-8 rounded-full bg-orange-500" />
-
-                  <span className="text-xs font-bold uppercase tracking-wider text-orange-600">
-                    Trending
-                  </span>
-                </div>
-
-                <h2 className="text-2xl font-extrabold text-[#123C69]">
+                <h2 className="border-l-[4px] border-[#ab1738] pl-3 text-xl font-bold text-[#123C69] md:text-2xl">
                   Most Viewed
                 </h2>
 
-                <p className="mt-1 text-sm text-gray-500">
+                <p className="mt-1 pl-4 text-sm text-gray-500">
                   Popular guides readers are checking out.
                 </p>
               </div>
 
               <Link
                 href="/blog"
-                className="hidden shrink-0 rounded-lg px-3 py-2 text-sm font-bold text-[#00897B] transition hover:bg-[#EAF8F6] sm:block"
+                className="hidden text-sm font-bold text-[#ab1738] hover:underline sm:block"
               >
-                View All →
+                View All »
               </Link>
             </div>
 
-            {/* Cards */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               {mostViewed.map((item) => (
                 <LatestJobCard
@@ -585,12 +519,11 @@ export default function PostDetail({
               ))}
             </div>
 
-            {/* Mobile View All */}
             <Link
               href="/blog"
-              className="mt-5 flex w-full items-center justify-center rounded-xl border border-[#D9E4EC] bg-white px-4 py-3 text-sm font-bold text-[#00897B] transition hover:border-[#00897B] hover:bg-[#EAF8F6] sm:hidden"
+              className="mt-5 flex w-full items-center justify-center border-[2px] border-[#ab1738] px-4 py-3 text-sm font-bold text-[#ab1738] hover:bg-[#ab1738] hover:text-white sm:hidden"
             >
-              View All Blogs →
+              View All Blogs »
             </Link>
           </section>
         )}
