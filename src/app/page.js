@@ -1,27 +1,53 @@
 import Categories from '@/components/home/Categories';
 import QuickLinksGrid from '@/components/home/QuickLinksGrid';
 import ThreeColumnFeed from '@/components/home/ThreeColumnFeed';
+import TelanganaHub from '@/components/home/TelanganaHub';
 import PostGrid from '@/components/home/PostGrid';
 import BlogGrid from '@/components/home/BlogGrid';
 import AdSlot from '@/components/home/AdSlot';
-import { getLatestByType, getClosingSoon } from '@/lib/posts';
+import { getLatestByType, getClosingSoon, getLatestByRegionPrefix } from '@/lib/posts';
 
 export const revalidate = 0;
 
 export default async function HomePage() {
-  const [jobs, results, admitCards, blogs, closingSoon] =
-    await Promise.all([
-      getLatestByType('job', 10),
-      getLatestByType('result', 10),
-      getLatestByType('admit_card', 10),
-      getLatestByType('blog', 3),
-      getClosingSoon(4),
-    ]);
+  const [
+    jobs,
+    results,
+    admitCards,
+    blogs,
+    closingSoon,
+    tgJobs,
+    tgResults,
+    tgAdmitCards,
+    tgSchemes,
+  ] = await Promise.all([
+    getLatestByType('job', 10),
+    getLatestByType('result', 10),
+    getLatestByType('admit_card', 10),
+    getLatestByType('blog', 3),
+    getClosingSoon(4),
+    getLatestByRegionPrefix('job', 'tg-', 8),
+    getLatestByRegionPrefix('result', 'tg-', 4),
+    getLatestByRegionPrefix('admit_card', 'tg-', 4),
+    getLatestByType('scheme', 8),
+  ]);
+
+  const tgResultsAndAdmitCards = [...tgResults, ...tgAdmitCards]
+    .sort((a, b) => new Date(b.published_at) - new Date(a.published_at))
+    .slice(0, 8);
 
   return (
     <>
       {/* Quick Navigation */}
       <QuickLinksGrid />
+
+       {/* Telangana Hub */}
+      <TelanganaHub
+        jobs={tgJobs}
+        resultsAndAdmitCards={tgResultsAndAdmitCards}
+        schemes={tgSchemes}
+      />
+
 
       {/* Compact Latest Feed */}
       <ThreeColumnFeed
@@ -30,6 +56,7 @@ export default async function HomePage() {
         jobs={jobs.slice(0, 10)}
       />
 
+     
       {/* Closing Soon */}
       {closingSoon.length > 0 && (
         <PostGrid

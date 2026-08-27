@@ -210,3 +210,18 @@ export async function getCategoryCounts() {
   });
   return counts;
 }
+export async function getLatestByRegionPrefix(type, prefix, limit = 8) {
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*')
+    .eq('type', type)
+    .like('category', `${prefix}%`)
+    .order('published_at', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('Error fetching by region prefix:', error);
+    return [];
+  }
+  return data;
+}
