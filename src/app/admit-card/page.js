@@ -11,11 +11,18 @@ export const metadata = {
 
 export default async function AdmitCardPage({ searchParams }) {
   const { region } = await searchParams;
+
   const posts = await getAllByTypeFilteredRegion(
     'admit_card',
     undefined,
     region
   );
 
-  return <ListPage posts={posts} />;
+  return (
+    <ListPage
+      title="Admit Card / Hall Ticket"
+      posts={posts}
+      basePath="/admit-card"
+    />
+  );
 }

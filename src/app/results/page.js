@@ -11,7 +11,18 @@ export const metadata = {
 
 export default async function ResultsPage({ searchParams }) {
   const { region } = await searchParams;
-  const posts = await getAllByTypeFilteredRegion('result', undefined, region);
 
-  return <ListPage posts={posts} />;
+  const posts = await getAllByTypeFilteredRegion(
+    'result',
+    undefined,
+    region
+  );
+
+  return (
+    <ListPage
+      title="Government Exam Results"
+      posts={posts}
+      basePath="/results"
+    />
+  );
 }
