@@ -20,6 +20,9 @@ export default async function HomePage() {
     tgResults,
     tgAdmitCards,
     tgSchemes,
+    centralJobs,
+    centralResults,
+    centralAdmitCards,
   ] = await Promise.all([
     getLatestByType('job', 10),
     getLatestByType('result', 10),
@@ -30,6 +33,9 @@ export default async function HomePage() {
     getLatestByRegionPrefix('result', 'tg-', 4),
     getLatestByRegionPrefix('admit_card', 'tg-', 4),
     getLatestByType('scheme', 8),
+    getLatestByRegionPrefix('job', 'c-', 6),
+    getLatestByRegionPrefix('result', 'c-', 6),
+    getLatestByRegionPrefix('admit_card', 'c-', 6),
   ]);
 
   const tgResultsAndAdmitCards = [...tgResults, ...tgAdmitCards]
@@ -38,80 +44,51 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Quick Navigation */}
       <QuickLinksGrid />
-
-       {/* Telangana Hub */}
-      <TelanganaHub
+<TelanganaHub
         jobs={tgJobs}
         resultsAndAdmitCards={tgResultsAndAdmitCards}
         schemes={tgSchemes}
       />
 
 
-      {/* Compact Latest Feed */}
       <ThreeColumnFeed
         results={results.slice(0, 10)}
         admitCards={admitCards.slice(0, 10)}
         jobs={jobs.slice(0, 10)}
       />
 
-     
-      {/* Closing Soon */}
+      
       {closingSoon.length > 0 && (
-        <PostGrid
-          title="⏰ Closing Soon"
-          posts={closingSoon}
-          viewAllHref="/jobs"
-          basePath="/jobs"
-        />
+        <PostGrid title="⏰ Closing Soon" posts={closingSoon} viewAllHref="/jobs" basePath="/jobs" />
       )}
 
-      {/* Categories */}
       <Categories />
 
-      {/* In-feed Advertisement */}
-      <AdSlot
-        slot="1111111111"
-        label="IN-FEED UNIT"
-      />
+      <AdSlot slot="1111111111" label="IN-FEED UNIT" />
 
-      {/* Latest Notifications */}
       <PostGrid
-        title="Latest Notifications"
-        posts={jobs}
-        viewAllHref="/jobs"
+        title="Latest Central Govt Notifications"
+        posts={centralJobs}
+        viewAllHref="/jobs?region=central"
         basePath="/jobs"
       />
-
-      {/* Latest Results */}
       <PostGrid
-        title="Latest Results"
-        posts={results}
-        viewAllHref="/results"
+        title="Latest Central Govt Results"
+        posts={centralResults}
+        viewAllHref="/results?region=central"
         basePath="/results"
       />
-
-      {/* Admit Cards */}
       <PostGrid
-        title="Admit Cards"
-        posts={admitCards}
-        viewAllHref="/admit-card"
+        title="Central Govt Admit Cards"
+        posts={centralAdmitCards}
+        viewAllHref="/admit-card?region=central"
         basePath="/admit-card"
       />
 
-      {/* Display Advertisement */}
-      <AdSlot
-        slot="2222222222"
-        label="DISPLAY UNIT"
-      />
+      <AdSlot slot="2222222222" label="DISPLAY UNIT" />
 
-      {/* Blog */}
-      <BlogGrid
-        title="From the Blog — Exam Prep Guides"
-        posts={blogs}
-        viewAllHref="/blog"
-      />
+      <BlogGrid title="From the Blog — Exam Prep Guides" posts={blogs} viewAllHref="/blog" />
     </>
   );
 }

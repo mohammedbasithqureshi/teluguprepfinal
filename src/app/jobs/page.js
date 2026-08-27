@@ -1,17 +1,17 @@
 import ListPage from '@/components/ui/ListPage';
 import CategoryFilter from '@/components/ui/CategoryFilter';
-import { getAllByTypeFiltered } from '@/lib/posts';
+import { getAllByTypeFilteredRegion } from '@/lib/posts';
 
 export const revalidate = 0;
 
 export const metadata = {
   title: 'Latest Government Job Notifications | Telugu Prep',
-  description: 'Latest government job notifications for Telangana — TGPSC, Police, Teaching, Health, District Jobs, and more.',
+  description: 'Latest government job notifications for Telangana, Andhra Pradesh, and Central Govt.',
 };
 
 export default async function JobsPage({ searchParams }) {
-  const { category } = await searchParams;
-  const posts = await getAllByTypeFiltered('job', category);
+  const { category, region } = await searchParams;
+  const posts = await getAllByTypeFilteredRegion('job', category, region);
 
   return (
     <ListPage

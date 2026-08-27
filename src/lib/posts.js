@@ -225,3 +225,22 @@ export async function getLatestByRegionPrefix(type, prefix, limit = 8) {
   }
   return data;
 }
+const REGION_PREFIX = { telangana: 'tg-', 'andhra-pradesh': 'ap-', central: 'c-' };
+
+export async function getAllByTypeFilteredRegion(type, category, region) {
+  let query = supabase.from('posts').select('*').eq('type', type);
+
+  if (category) {
+    query = query.eq('category', category);
+  } else if (region && REGION_PREFIX[region]) {
+    query = query.like('category', `${REGION_PREFIX[region]}%`);
+  }
+
+  const { data, error } = await query.order('published_at', { ascending: false });
+
+  if (error) {
+    console.error(error);
+    return [];
+  }
+  return data;
+}
