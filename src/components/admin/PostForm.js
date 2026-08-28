@@ -64,6 +64,10 @@ export default function PostForm({ initialData, postId }) {
     beneficiary: initialData?.beneficiary || '',
     scheme_amount: initialData?.scheme_amount || '',
     launched_by: initialData?.launched_by || '',
+    // Quick link fields
+    is_quick_link: initialData?.is_quick_link || false,
+    quick_link_label: initialData?.quick_link_label || '',
+    quick_link_color: initialData?.quick_link_color || '#00897B',
   });
 
   const [importantDates, setImportantDates] = useState(
@@ -131,6 +135,9 @@ export default function PostForm({ initialData, postId }) {
       admit_card_url: form.admit_card_url || null,
       result_url: form.result_url || null,
       important_dates: Object.keys(datesObject).length ? datesObject : null,
+      is_quick_link: form.is_quick_link,
+      quick_link_label: form.quick_link_label || null,
+      quick_link_color: form.quick_link_color,
     };
 
     const url = postId ? `/api/admin/posts/${postId}` : '/api/admin/posts';
@@ -533,6 +540,45 @@ export default function PostForm({ initialData, postId }) {
               </div>
             ))}
           </div>
+        </div>
+      )}
+
+      {/* ---------------- Quick Links (job / result / admit_card / answer_key only) ---------------- */}
+      {!isBlog && !isScheme && (
+        <div className="border-t pt-6">
+          <label className="flex items-center gap-2 mb-3">
+            <input
+              type="checkbox"
+              checked={form.is_quick_link}
+              onChange={(e) => update('is_quick_link', e.target.checked)}
+              className="w-4 h-4"
+            />
+            <span className="text-sm font-medium">Show in homepage Quick Links</span>
+          </label>
+
+          {form.is_quick_link && (
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Quick Link Label</label>
+                <input
+                  type="text"
+                  value={form.quick_link_label}
+                  onChange={(e) => update('quick_link_label', e.target.value)}
+                  placeholder="Short button text, e.g. TGPSC Group-2 Apply Online"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Button Color</label>
+                <input
+                  type="color"
+                  value={form.quick_link_color}
+                  onChange={(e) => update('quick_link_color', e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg h-10"
+                />
+              </div>
+            </div>
+          )}
         </div>
       )}
 

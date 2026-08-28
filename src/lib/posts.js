@@ -244,3 +244,17 @@ export async function getAllByTypeFilteredRegion(type, category, region) {
   }
   return data;
 }
+export async function getQuickLinks(limit = 8) {
+  const { data, error } = await supabase
+    .from('posts')
+    .select('id, title, slug, type, quick_link_label, quick_link_color, category')
+    .eq('is_quick_link', true)
+    .order('published_at', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('Error fetching quick links:', error);
+    return [];
+  }
+  return data;
+}

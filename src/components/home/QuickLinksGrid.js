@@ -1,66 +1,22 @@
 import Link from 'next/link';
+import { getQuickLinks } from '@/lib/posts';
 
-const telanganaLinks = [
-  {
-    label: 'TGPSC Group-2 Apply Online',
-    href: '/jobs?category=tg-tgpsc-group2',
-    color: 'bg-[#7CB342]',
-  },
-  {
-    label: 'Telangana Police Apply Online',
-    href: '/jobs?category=tg-police-constable',
-    color: 'bg-[#1E88E5]',
-  },
-  {
-    label: 'Anganwadi Recruitment Apply',
-    href: '/jobs?category=tg-panchayat-secretary',
-    color: 'bg-[#FB8C00]',
-  },
-  {
-    label: 'Telangana Govt Schemes',
-    href: '/schemes',
-    color: 'bg-[#00897B]',
-  },
-];
-
-const centralLinks = [
-  {
-    label: 'SSC CGL Apply Online',
-    href: '/jobs?category=c-ssc',
-    color: 'bg-[#00897B]',
-  },
-  {
-    label: 'Railway RRB Apply Online',
-    href: '/jobs?category=c-railways',
-    color: 'bg-[#00897B]',
-  },
-  {
-    label: 'UPSC Notifications',
-    href: '/jobs?category=c-upsc',
-    color: 'bg-[#00897B]',
-  },
-  {
-    label: 'Eligibility Checker',
-    href: '/eligibility-check',
-    color: 'bg-[#5E35B1]',
-  },
-];
+const TYPE_PATH = { job: 'jobs', result: 'results', admit_card: 'admit-card', answer_key: 'answer-key' };
 
 function LinkRow({ title, links }) {
+  if (!links.length) return null;
   return (
     <div className="mb-4 last:mb-0">
-      <p className="text-xs font-bold uppercase tracking-wide text-gray-500 mb-2">
-        {title}
-      </p>
-
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
-        {links.map((link) => (
+      <p className="text-xs font-bold uppercase tracking-wide text-gray-500 mb-2">{title}</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        {links.map((post) => (
           <Link
-            key={link.href}
-            href={link.href}
-            className={`${link.color} text-white font-bold text-center rounded-lg sm:rounded-xl px-2 sm:px-4 py-3 sm:py-5 text-xs sm:text-sm leading-tight hover:brightness-110 transition shadow-sm min-h-[64px] sm:min-h-[80px] flex items-center justify-center`}
+            key={post.id}
+            href={`/${TYPE_PATH[post.type]}/${post.slug}`}
+            style={{ backgroundColor: post.quick_link_color }}
+            className="text-white font-bold text-center rounded-xl px-4 py-5 text-sm hover:brightness-110 transition shadow-sm"
           >
-            {link.label}
+            {post.quick_link_label || post.title}
           </Link>
         ))}
       </div>
@@ -68,18 +24,17 @@ function LinkRow({ title, links }) {
   );
 }
 
-export default function QuickLinksGrid() {
-  return (
-    <section className="container-page py-6 md:py-8">
-      <LinkRow
-        title="Telangana"
-        links={telanganaLinks}
-      />
+export default async function QuickLinksGrid() {
+  const links = await getQuickLinks(16);
+  const tgLinks = links.filter((l) => l.category?.startsWith('tg-'));
+  const centralLinks = links.filter((l) => l.category?.startsWith('c-'));
+  const apLinks = links.filter((l) => l.category?.startsWith('ap-'));
 
-      <LinkRow
-        title="Central Government"
-        links={centralLinks}
-      />
+  return (
+    <section className="container-page py-8">
+      <LinkRow title="Telangana" links={tgLinks} />
+      <LinkRow title="Andhra Pradesh" links={apLinks} />
+      <LinkRow title="Central Government" links={centralLinks} />
     </section>
   );
 }

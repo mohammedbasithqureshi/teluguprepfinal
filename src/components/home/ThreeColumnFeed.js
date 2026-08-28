@@ -125,7 +125,7 @@ export default function ThreeColumnFeed({
 
         {/* Central Level Job */}
         <ColumnCard
-          title="Central Level Job Notification"
+          title="Central  Jobs  Notification"
           posts={jobs}
           basePath="/jobs"
           headerColor="bg-[#00897B]"
