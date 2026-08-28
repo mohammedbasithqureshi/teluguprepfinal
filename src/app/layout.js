@@ -2,6 +2,7 @@ import { Inter, Noto_Sans_Telugu } from 'next/font/google';
 import Script from 'next/script';
 
 import './globals.css';
+
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import TopBar from '@/components/layout/TopBar';
@@ -54,7 +55,11 @@ export const metadata = {
   },
 
   other: {
+    // Google AdSense
     'google-adsense-account': 'ca-pub-9039316648016229',
+
+    // Monetag Website Verification
+    monetag: 'c06df0e4feebddbbc52c31e9bcf47662',
   },
 
   verification: {
@@ -85,7 +90,11 @@ export default function RootLayout({ children }) {
         <Script id="google-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
-            function gtag(){window.dataLayer.push(arguments);}
+
+            function gtag() {
+              window.dataLayer.push(arguments);
+            }
+
             gtag('js', new Date());
             gtag('config', 'G-LJC2CZNPGZ');
           `}
