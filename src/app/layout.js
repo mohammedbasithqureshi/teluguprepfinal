@@ -1,5 +1,6 @@
 import { Inter, Noto_Sans_Telugu } from 'next/font/google';
 import Script from 'next/script';
+import MonetagScript from '@/components/layout/MonetagScript';
 
 import './globals.css';
 
@@ -81,13 +82,8 @@ export default function RootLayout({ children }) {
           strategy="afterInteractive"
         />
 
-{/* Monetag MultiTag */}
-<Script
-  src="https://quge5.com/88/tag.min.js"
-  data-zone="273961"
-  strategy="afterInteractive"
-  data-cfasync="false"
-/>
+        {/* Monetag MultiTag - Public Pages Only */}
+        <MonetagScript />
 
         {/* Google Analytics */}
         <Script
