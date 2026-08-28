@@ -81,6 +81,14 @@ export default function RootLayout({ children }) {
           strategy="afterInteractive"
         />
 
+{/* Monetag MultiTag */}
+<Script
+  src="https://quge5.com/88/tag.min.js"
+  data-zone="273961"
+  strategy="afterInteractive"
+  data-cfasync="false"
+/>
+
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-LJC2CZNPGZ"
