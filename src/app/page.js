@@ -5,6 +5,8 @@ import TelanganaHub from '@/components/home/TelanganaHub';
 import PostGrid from '@/components/home/PostGrid';
 import BlogGrid from '@/components/home/BlogGrid';
 import AdSlot from '@/components/home/AdSlot';
+import AdsterraBanner from '@/components/home/AdsterraBanner';
+import AdsterraNative from '@/components/home/AdsterraNative';
 import { getLatestByType, getClosingSoon, getLatestByRegionPrefix } from '@/lib/posts';
 
 export const revalidate = 0;
@@ -40,11 +42,15 @@ export default async function HomePage() {
     <>
       <QuickLinksGrid />
 
+      <AdsterraBanner adKey="f90d5dbcb598631f3e161225fc7131b1" width={468} height={60} />
+
       <TelanganaHub
         jobs={tgJobs}
         resultsAndAdmitCards={tgResultsAndAdmitCards}
         schemes={tgSchemes}
       />
+
+      <AdsterraNative />
 
       <ThreeColumnFeed
         results={centralResults}
