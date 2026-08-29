@@ -52,7 +52,7 @@ function ColumnCard({ title, posts, basePath, getHref }) {
 
       {/* List Container */}
       <div className="p-1.5 sm:p-2 md:p-3 border-2 md:border-4 border-white flex-1 flex flex-col justify-between">
-        <ul className="list-disc list-inside space-y-2 md:space-y-3.5 text-xs md:text-sm text-[#0000ee] break-words">
+        <ul className="list-disc list-inside space-y-2 md:space-y-3.5 text-xs md:text-sm text-[#0000ee] break-words max-h-[280px] md:max-h-[320px] overflow-y-auto pr-1">
           {posts.length === 0 && (
             <li className="text-gray-500 list-none">
               No entries yet.
@@ -140,7 +140,7 @@ export default function TelanganaHub({
           posts={resultsAndAdmitCards}
           basePath="/results"
           getHref={(post) =>
-            `/${TYPE_PATH[post.type]}/${post.slug}`
+            `/${TYPE_PATH[post.type] || 'results'}/${post.slug}`
           }
         />
 

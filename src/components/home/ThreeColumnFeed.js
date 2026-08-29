@@ -44,14 +44,15 @@ function ColumnCard({
   title,
   posts,
   basePath,
-  headerColor,
+  headerColor = 'bg-[#00897B]',
+  borderColor = 'border-[#00897B]',
 }) {
   return (
-    <div className="border-[3px] border-[#ab1738] bg-white flex flex-col font-sans min-w-0">
+    <div className={`border-[3px] ${borderColor} bg-white flex flex-col font-sans min-w-0`}>
 
       {/* Header */}
       <div
-        className={`${headerColor} py-1.5 px-1 text-center border-b-[3px] border-[#ab1738]`}
+        className={`${headerColor} py-1.5 px-1 text-center border-b-[3px] ${borderColor}`}
       >
         <h3 className="text-white font-bold text-xs sm:text-sm md:text-2xl tracking-wide leading-tight">
           {title}
@@ -61,7 +62,7 @@ function ColumnCard({
       {/* List Container */}
       <div className="p-1.5 sm:p-2 md:p-3 border-2 md:border-4 border-white flex-1 flex flex-col justify-between">
 
-        <ul className="list-disc list-inside space-y-2 md:space-y-3.5 text-xs md:text-sm text-[#0000ee] break-words">
+        <ul className="list-disc list-inside space-y-2 md:space-y-3.5 text-xs md:text-sm text-[#0000ee] break-words max-h-[280px] md:max-h-[320px] overflow-y-auto pr-1">
 
           {posts.length === 0 && (
             <li className="text-gray-500 list-none">
@@ -125,10 +126,11 @@ export default function ThreeColumnFeed({
 
         {/* Central Level Job */}
         <ColumnCard
-          title="Central  Jobs  Notification"
+          title="Central Jobs Notification"
           posts={jobs}
           basePath="/jobs"
           headerColor="bg-[#00897B]"
+          borderColor="border-[#00897B]"
         />
 
         {/* Central Level Result */}
@@ -137,6 +139,7 @@ export default function ThreeColumnFeed({
           posts={results}
           basePath="/results"
           headerColor="bg-[#00897B]"
+          borderColor="border-[#00897B]"
         />
 
         {/* Central Level Admit Card */}
@@ -145,6 +148,7 @@ export default function ThreeColumnFeed({
           posts={admitCards}
           basePath="/admit-card"
           headerColor="bg-[#00897B]"
+          borderColor="border-[#00897B]"
         />
 
       </div>

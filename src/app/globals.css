@@ -64,3 +64,12 @@ a {
     transform: translateX(-50%);
   }
 }
+.max-h-\[280px\]::-webkit-scrollbar,
+.max-h-\[320px\]::-webkit-scrollbar {
+  width: 4px;
+}
+.max-h-\[280px\]::-webkit-scrollbar-thumb,
+.max-h-\[320px\]::-webkit-scrollbar-thumb {
+  background-color: #ab1738;
+  border-radius: 2px;
+}
