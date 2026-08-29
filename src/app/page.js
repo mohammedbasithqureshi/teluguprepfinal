@@ -11,9 +11,6 @@ export const revalidate = 0;
 
 export default async function HomePage() {
   const [
-    jobs,
-    results,
-    admitCards,
     blogs,
     closingSoon,
     tgJobs,
@@ -24,18 +21,15 @@ export default async function HomePage() {
     centralResults,
     centralAdmitCards,
   ] = await Promise.all([
-    getLatestByType('job', 10),
-    getLatestByType('result', 10),
-    getLatestByType('admit_card', 10),
     getLatestByType('blog', 3),
     getClosingSoon(4),
     getLatestByRegionPrefix('job', 'tg-', 8),
     getLatestByRegionPrefix('result', 'tg-', 4),
     getLatestByRegionPrefix('admit_card', 'tg-', 4),
     getLatestByType('scheme', 8),
-    getLatestByRegionPrefix('job', 'c-', 6),
-    getLatestByRegionPrefix('result', 'c-', 6),
-    getLatestByRegionPrefix('admit_card', 'c-', 6),
+    getLatestByRegionPrefix('job', 'c-', 10),
+    getLatestByRegionPrefix('result', 'c-', 10),
+    getLatestByRegionPrefix('admit_card', 'c-', 10),
   ]);
 
   const tgResultsAndAdmitCards = [...tgResults, ...tgAdmitCards]
@@ -45,20 +39,19 @@ export default async function HomePage() {
   return (
     <>
       <QuickLinksGrid />
-<TelanganaHub
+
+      <TelanganaHub
         jobs={tgJobs}
         resultsAndAdmitCards={tgResultsAndAdmitCards}
         schemes={tgSchemes}
       />
 
-
       <ThreeColumnFeed
-        results={results.slice(0, 10)}
-        admitCards={admitCards.slice(0, 10)}
-        jobs={jobs.slice(0, 10)}
+        results={centralResults}
+        admitCards={centralAdmitCards}
+        jobs={centralJobs}
       />
 
-      
       {closingSoon.length > 0 && (
         <PostGrid title="⏰ Closing Soon" posts={closingSoon} viewAllHref="/jobs" basePath="/jobs" />
       )}
