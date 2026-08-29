@@ -13,6 +13,7 @@ export default function UniversityResultForm({ initialData, resultId }) {
     slug: initialData?.slug || '',
     university: initialData?.university || '',
     summary: initialData?.summary || '',
+    content: initialData?.content || '',
     result_published_date: initialData?.result_published_date || '',
     official_link: initialData?.official_link || '',
   });
@@ -121,6 +122,7 @@ export default function UniversityResultForm({ initialData, resultId }) {
 
     const payload = {
       ...form,
+      content: form.content,
       courses: courses.filter((c) => c.course_name.trim()),
       how_to_check: howToCheck.filter((s) => s.trim()),
       notes: notes.filter((n) => n.trim()),
@@ -197,6 +199,19 @@ export default function UniversityResultForm({ initialData, resultId }) {
           onChange={(e) => update('summary', e.target.value)}
           rows={2}
           className="w-full border border-gray-300 rounded-lg px-3 py-2"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium mb-1">
+          Detailed Content (optional — use **Heading** for headings, "- item" for bullets)
+        </label>
+        <textarea
+          value={form.content}
+          onChange={(e) => update('content', e.target.value)}
+          rows={10}
+          placeholder={"**Overview**\nExtra context about the exam results...\n\n**Revaluation Policy**\n- Point 1\n- Point 2"}
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 font-mono text-sm"
         />
       </div>
 
