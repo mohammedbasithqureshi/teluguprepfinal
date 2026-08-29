@@ -35,12 +35,20 @@ export default function AdminDashboard() {
     <div className="container-page py-10">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-        <Link
-          href="/admin/new"
-          className="bg-[var(--color-teal)] text-white px-5 py-2 rounded-lg text-sm font-semibold"
-        >
-          + Add New Post
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/admin/new"
+            className="bg-[var(--color-teal)] text-white px-5 py-2 rounded-lg text-sm font-semibold"
+          >
+            + Add New Post
+          </Link>
+          <Link
+            href="/admin/university-results"
+            className="border border-[#123C69] text-[#123C69] px-5 py-2 rounded-lg text-sm font-semibold"
+          >
+            University Results →
+          </Link>
+        </div>
       </div>
 
       <div className="flex flex-wrap gap-2 mb-6">
@@ -80,7 +88,10 @@ export default function AdminDashboard() {
                   {new Date(post.published_at).toLocaleDateString('en-IN')}
                 </td>
                 <td className="p-3 text-right space-x-3">
-                  <Link href={`/admin/edit/${post.id}`} className="text-[var(--color-teal)] font-medium">
+                  <Link
+                    href={`/admin/edit/${post.id}`}
+                    className="text-[var(--color-teal)] font-medium"
+                  >
                     Edit
                   </Link>
                   <button

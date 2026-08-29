@@ -32,6 +32,24 @@ export default async function QuickLinksGrid() {
 
   return (
     <section className="container-page py-8">
+      <div className="mb-4">
+        <p className="text-xs font-bold uppercase tracking-wide text-gray-500 mb-2">Quick Access</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <Link
+            href="/university-results"
+            className="bg-[#c4ccd4] text-white font-bold text-center rounded-xl px-4 py-5 text-sm hover:brightness-110 transition shadow-sm sm:col-span-2 lg:col-span-2 flex items-center justify-center gap-2"
+          >
+            🎓 JNTUH Exam Results
+          </Link>
+          <Link
+            href="/schemes"
+            className="bg-[#7b1fa2] text-white font-bold text-center rounded-xl px-4 py-5 text-sm hover:brightness-110 transition shadow-sm sm:col-span-2 lg:col-span-2 flex items-center justify-center gap-2"
+          >
+            📋 Government Schemes
+          </Link>
+        </div>
+      </div>
+
       <LinkRow title="Telangana" links={tgLinks} />
       <LinkRow title="Andhra Pradesh" links={apLinks} />
       <LinkRow title="Central Government" links={centralLinks} />
