@@ -1,6 +1,6 @@
 import { Inter, Noto_Sans_Telugu } from 'next/font/google';
 import Script from 'next/script';
-import MonetagScript from '@/components/layout/MonetagScript';
+
 
 import './globals.css';
 
@@ -59,8 +59,7 @@ export const metadata = {
     // Google AdSense
     'google-adsense-account': 'ca-pub-9039316648016229',
 
-    // Monetag Website Verification
-    monetag: 'c06df0e4feebddbbc52c31e9bcf47662',
+    
   },
 
   verification: {
@@ -82,8 +81,7 @@ export default function RootLayout({ children }) {
           strategy="afterInteractive"
         />
 
-        {/* Monetag MultiTag - Public Pages Only */}
-        <MonetagScript />
+      
 
         {/* Google Analytics */}
         <Script
