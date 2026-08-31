@@ -9,7 +9,8 @@
     { "label": "Blog", "href": "/blog" },
     { "label": "About", "href": "/about" },
     { "label": "Contact", "href": "/contact" },
-    { "label": "Schemes", "href": "/schemes" }
+    { "label": "Schemes", "href": "/schemes" },
+    { "label": "Scholarships", "href": "/scholarships" }
 
   ],
   "footerExplore": [

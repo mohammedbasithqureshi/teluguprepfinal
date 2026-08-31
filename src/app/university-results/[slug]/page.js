@@ -4,8 +4,7 @@ import CourseResultsTable from '@/components/university-results/CourseResultsTab
 import HowToCheckBox from '@/components/university-results/HowToCheckBox';
 import ShareButton from '@/components/ui/ShareButton';
 import AdSlot from '@/components/home/AdSlot';
-import AdsterraBanner from '@/components/home/AdsterraBanner';
-import AdsterraNative from '@/components/home/AdsterraNative';
+
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -148,14 +147,7 @@ export default async function UniversityResultDetailPage({ params }) {
           <AdSlot slot="4444444444" label="IN-ARTICLE UNIT" />
         </div>
 
-        <div className="mx-auto my-8 max-w-4xl flex justify-center">
-          <AdsterraBanner adKey="ecc45bf69448d3f95c812c0ddd88da96" width={160} height={300} />
-        </div>
-
-        <div className="mx-auto my-8 max-w-4xl">
-          <AdsterraNative />
-        </div>
-
+      
         {/* ------------------------------------------------
             CONTENT — optional long-form body, heading+bullet parsed
         ------------------------------------------------ */}

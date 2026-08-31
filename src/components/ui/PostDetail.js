@@ -2,8 +2,7 @@ import Link from 'next/link';
 
 import AdSlot from '@/components/home/AdSlot';
 import ShareButton from '@/components/ui/ShareButton';
-import AdsterraBanner from '@/components/home/AdsterraBanner';
-import AdsterraNative from '@/components/home/AdsterraNative';
+
 const typeLabels = {
   job: 'NOTIFICATION',
   result: 'RESULT',
@@ -428,13 +427,6 @@ export default function PostDetail({
   />
 </div>
 
-<div className="mx-auto my-8 max-w-4xl flex justify-center">
-  <AdsterraBanner adKey="ecc45bf69448d3f95c812c0ddd88da96" width={160} height={300} />
-</div>
-
-<div className="mx-auto my-8 max-w-4xl">
-  <AdsterraNative />
-</div>
 
         {/* ------------------------------------------------
             LATEST
